@@ -1,21 +1,22 @@
 package calendarium.ui;
 
-import net.bytebuddy.dynamic.scaffold.TypeInitializer;
-
 import javax.swing.*;
 
-import java.awt.*;
 import java.awt.EventQueue;
 import javax.swing.border.EmptyBorder;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.time.LocalDateTime;
+import java.time.YearMonth;
+import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class Main extends JFrame{
     public static JFrame n;
-    private JPanel f;
+    private JPanel contantPane;
 
-    public static int xDate [] = new int[31];
-    public static int yDate [] = new int[31];
+    private ArrayList<JButton> calendarDays;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -31,77 +32,126 @@ public class Main extends JFrame{
             }
         });
     }
+
+
     public Main() {
+        calendarDays=new ArrayList<>();
 
-        setBounds(100, 100, 682, 600);
-        f = new JPanel();
-        f.setBorder(new EmptyBorder(5, 5, 5, 5));
-        setContentPane(f);
-        f.setLayout(null);
+        setBounds(100, 100, 680, 600);
+        contantPane = new JPanel();
+        contantPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contantPane);
+        contantPane.setLayout(null);
 
+        AtomicInteger month= new AtomicInteger(1);
+        ActionListener monthButtonListener= e -> {
+            arrangeCalendarDays(
+                    LocalDateTime.of(2021, month.get(), 1, 12, 0).getDayOfWeek().ordinal(),
+                    YearMonth.of(LocalDateTime.now().getYear(), month.get()).lengthOfMonth()
+            );
+            month.getAndIncrement();
+        };
         JButton JanButton = new JButton("January");
         JanButton.setBounds(10, 30, 100, 45);
-        f.add(JanButton);
+        JanButton.addActionListener(monthButtonListener);
+        contantPane.add(JanButton);
 
         JButton FebButton = new JButton("February");
         FebButton.setBounds(120, 30, 100, 45);
-        f.add(FebButton);
+        FebButton.addActionListener(monthButtonListener);
+        contantPane.add(FebButton);
 
         JButton MarchButton = new JButton("March");
         MarchButton.setBounds(230, 30, 100, 45);
-        f.add(MarchButton);
+        MarchButton.addActionListener(monthButtonListener);
+        contantPane.add(MarchButton);
 
         JButton AprilButton = new JButton("April");
         AprilButton.setBounds(340, 30, 100, 45);
-        f.add(AprilButton);
+        AprilButton.addActionListener(monthButtonListener);
+        contantPane.add(AprilButton);
 
         JButton MayButton = new JButton("May");
         MayButton.setBounds(450, 30, 100, 45);
-        f.add(MayButton);
+        MayButton.addActionListener(monthButtonListener);
+        contantPane.add(MayButton);
 
         JButton JuneButton = new JButton("June");
         JuneButton.setBounds(560, 30, 100, 45);
-        f.add(JuneButton);
+        JuneButton.addActionListener(monthButtonListener);
+        contantPane.add(JuneButton);
 
         JButton JulyButton = new JButton("July");
         JulyButton.setBounds(10, 90, 100, 45);
-        f.add(JulyButton);
+        JulyButton.addActionListener(monthButtonListener);
+        contantPane.add(JulyButton);
 
         JButton AugustButton = new JButton("August");
         AugustButton.setBounds(120, 90, 100, 45);
-        f.add(AugustButton);
+        AugustButton.addActionListener(monthButtonListener);
+        contantPane.add(AugustButton);
 
         JButton SeptemberButton = new JButton("September");
         SeptemberButton.setBounds(230, 90, 100, 45);
-        f.add(SeptemberButton);
+        SeptemberButton.addActionListener(monthButtonListener);
+        contantPane.add(SeptemberButton);
 
         JButton OctoberButton = new JButton("October");
         OctoberButton.setBounds(340, 90, 100, 45);
-        f.add(OctoberButton);
+        OctoberButton.addActionListener(monthButtonListener);
+        contantPane.add(OctoberButton);
 
         JButton NovemberButton = new JButton("November");
         NovemberButton.setBounds(450, 90, 100, 45);
-        f.add(NovemberButton);
+        NovemberButton.addActionListener(monthButtonListener);
+        contantPane.add(NovemberButton);
 
         JButton DecemberButton = new JButton("December");
         DecemberButton.setBounds(560, 90, 100, 45);
-        f.add(DecemberButton);
+        DecemberButton.addActionListener(monthButtonListener);
+        contantPane.add(DecemberButton);
 
         JButton SelectDate = new JButton("Add event");
-        SelectDate.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // TODO Auto-generated method stub
-                //Dunno.setVisible(false);
-                new EventClass().setVisible(true);
-            }
+        SelectDate.addActionListener(e -> {
+            // TODO Auto-generated method stub
+            //Dunno.setVisible(false);
+           // new EventClass().setVisible(true);
         });
 
-        SelectDate.setBounds(280, 145, 100, 45);
-        f.add(SelectDate);
-
+        SelectDate.setBounds(500, 475, 100, 45);
+        contantPane.add(SelectDate);
     }
+
+    private void arrangeCalendarDays(int dayOfTheWeek,int countOfDays){
+        for (JButton b:
+             calendarDays) {
+            contantPane.remove(b);
+        }
+        calendarDays=new ArrayList<>();
+        int startX=30;
+        int startY=150;
+        int endX=680;
+        int endY=450;
+        int width=(endX-startX-10)/7;
+        int height=(endY-startY-10)/7;
+        int plusX=width+10;
+        int plusY=height+10;
+        int index=0;
+        for (int i = 0; i < 7; i++) {
+            for (int j = i==0?dayOfTheWeek:0; j < 6; j++) {
+                JButton b=new JButton();
+                b.setBounds(startX+j*plusX,startY+i*plusY,width,height);
+                b.setText(++index+"");
+                contantPane.add(b);
+                calendarDays.add(b);
+                if (index>countOfDays){
+                    repaint();
+                    return;
+                }
+            }
+        }
+    }
+
  //   public void paint(Graphics g) {
 //paint(g);
 
