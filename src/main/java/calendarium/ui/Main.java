@@ -8,6 +8,8 @@ import java.awt.*;
 import java.awt.EventQueue;
 import javax.swing.border.EmptyBorder;
 
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 public class Main extends JFrame{
     public static JFrame n;
     private JPanel f;
@@ -31,7 +33,6 @@ public class Main extends JFrame{
     }
     public Main() {
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 682, 600);
         f = new JPanel();
         f.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -58,11 +59,9 @@ public class Main extends JFrame{
         MayButton.setBounds(450, 30, 100, 45);
         f.add(MayButton);
 
-
         JButton JuneButton = new JButton("June");
         JuneButton.setBounds(560, 30, 100, 45);
         f.add(JuneButton);
-
 
         JButton JulyButton = new JButton("July");
         JulyButton.setBounds(10, 90, 100, 45);
@@ -88,8 +87,19 @@ public class Main extends JFrame{
         DecemberButton.setBounds(560, 90, 100, 45);
         f.add(DecemberButton);
 
+        JButton SelectDate = new JButton("Add event");
+        SelectDate.addActionListener(new ActionListener() {
 
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                //Dunno.setVisible(false);
+                new EventClass().setVisible(true);
+            }
+        });
 
+        SelectDate.setBounds(280, 145, 100, 45);
+        f.add(SelectDate);
 
     }
  //   public void paint(Graphics g) {
