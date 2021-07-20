@@ -60,4 +60,21 @@ public class EventRepository {
         session.close();
         return it;
     }
+
+    @Transactional
+    public void update(Event ev) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.update(ev);
+        session.close();
+    }
+
+    @Transactional
+    public void updateAll(Iterator<Event> ev) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        while(ev.hasNext()) {
+            Event e = ev.next();
+            session.update(e);
+        }
+        session.close();
+    }
 }
