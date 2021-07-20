@@ -9,7 +9,8 @@
         <property name="hibernate.connection.password">password</property>
         <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/calendarium</property>
         <property name="connection_pool_size">1</property>
-        <property name="hbm2ddl.auto">create</property>
+        <property name="hbm2ddl.auto">update</property>
         <property name="show_sql">true</property>
+        <mapping class="calendarium.db.entity.Event"/>
     </session-factory>
 </hibernate-configuration>
