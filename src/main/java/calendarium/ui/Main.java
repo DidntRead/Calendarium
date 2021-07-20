@@ -38,77 +38,157 @@ public class Main extends JFrame{
         calendarDays=new ArrayList<>();
 
         setBounds(100, 100, 680, 600);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         contantPane = new JPanel();
         contantPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contantPane);
         contantPane.setLayout(null);
 
-        AtomicInteger month= new AtomicInteger(1);
-        ActionListener monthButtonListener= e -> {
-            arrangeCalendarDays(
-                    LocalDateTime.of(2021, month.get(), 1, 12, 0).getDayOfWeek().ordinal(),
-                    YearMonth.of(LocalDateTime.now().getYear(), month.get()).lengthOfMonth()
-            );
-            month.getAndIncrement();
-        };
+
+
         JButton JanButton = new JButton("January");
         JanButton.setBounds(10, 30, 100, 45);
-        JanButton.addActionListener(monthButtonListener);
+        JanButton.addActionListener(e -> {
+            int month=1;
+            arrangeCalendarDays(
+
+                    LocalDateTime.of(2021, month, 1, 12, 0).getDayOfWeek().ordinal(),
+                    YearMonth.of(LocalDateTime.now().getYear(), month).lengthOfMonth()
+            );
+        });
+
         contantPane.add(JanButton);
 
         JButton FebButton = new JButton("February");
         FebButton.setBounds(120, 30, 100, 45);
-        FebButton.addActionListener(monthButtonListener);
+        FebButton.addActionListener(e -> {
+            int month=2;
+            arrangeCalendarDays(
+
+                    LocalDateTime.of(2021, month, 1, 12, 0).getDayOfWeek().ordinal(),
+                    YearMonth.of(LocalDateTime.now().getYear(), month).lengthOfMonth()
+            );
+        });
         contantPane.add(FebButton);
 
         JButton MarchButton = new JButton("March");
         MarchButton.setBounds(230, 30, 100, 45);
-        MarchButton.addActionListener(monthButtonListener);
+        MarchButton.addActionListener(e -> {
+            int month=3;
+            arrangeCalendarDays(
+
+                    LocalDateTime.of(2021, month, 1, 12, 0).getDayOfWeek().ordinal(),
+                    YearMonth.of(LocalDateTime.now().getYear(), month).lengthOfMonth()
+            );
+        });
         contantPane.add(MarchButton);
 
         JButton AprilButton = new JButton("April");
         AprilButton.setBounds(340, 30, 100, 45);
-        AprilButton.addActionListener(monthButtonListener);
+        AprilButton.addActionListener(e -> {
+            int month=4;
+            arrangeCalendarDays(
+
+                    LocalDateTime.of(2021, month, 1, 12, 0).getDayOfWeek().ordinal(),
+                    YearMonth.of(LocalDateTime.now().getYear(), month).lengthOfMonth()
+            );
+        });
         contantPane.add(AprilButton);
 
         JButton MayButton = new JButton("May");
         MayButton.setBounds(450, 30, 100, 45);
-        MayButton.addActionListener(monthButtonListener);
+        MayButton.addActionListener(e -> {
+            int month=5;
+            arrangeCalendarDays(
+
+                    LocalDateTime.of(2021, month, 1, 12, 0).getDayOfWeek().ordinal(),
+                    YearMonth.of(LocalDateTime.now().getYear(), month).lengthOfMonth()
+            );
+        });
         contantPane.add(MayButton);
 
         JButton JuneButton = new JButton("June");
         JuneButton.setBounds(560, 30, 100, 45);
-        JuneButton.addActionListener(monthButtonListener);
+        JuneButton.addActionListener(e -> {
+            int month=6;
+            arrangeCalendarDays(
+
+                    LocalDateTime.of(2021, month, 1, 12, 0).getDayOfWeek().ordinal(),
+                    YearMonth.of(LocalDateTime.now().getYear(), month).lengthOfMonth()
+            );
+        });
         contantPane.add(JuneButton);
 
         JButton JulyButton = new JButton("July");
         JulyButton.setBounds(10, 90, 100, 45);
-        JulyButton.addActionListener(monthButtonListener);
+        JulyButton.addActionListener(e -> {
+            int month=7;
+            arrangeCalendarDays(
+
+                    LocalDateTime.of(2021, month, 1, 12, 0).getDayOfWeek().ordinal(),
+                    YearMonth.of(LocalDateTime.now().getYear(), month).lengthOfMonth()
+            );
+        });
         contantPane.add(JulyButton);
 
         JButton AugustButton = new JButton("August");
         AugustButton.setBounds(120, 90, 100, 45);
-        AugustButton.addActionListener(monthButtonListener);
+        AugustButton.addActionListener(e -> {
+            int month=8;
+            arrangeCalendarDays(
+
+                    LocalDateTime.of(2021, month, 1, 12, 0).getDayOfWeek().ordinal(),
+                    YearMonth.of(LocalDateTime.now().getYear(), month).lengthOfMonth()
+            );
+        });
         contantPane.add(AugustButton);
 
         JButton SeptemberButton = new JButton("September");
         SeptemberButton.setBounds(230, 90, 100, 45);
-        SeptemberButton.addActionListener(monthButtonListener);
+        SeptemberButton.addActionListener(e -> {
+            int month=9;
+            arrangeCalendarDays(
+
+                    LocalDateTime.of(2021, month, 1, 12, 0).getDayOfWeek().ordinal(),
+                    YearMonth.of(LocalDateTime.now().getYear(), month).lengthOfMonth()
+            );
+        });
         contantPane.add(SeptemberButton);
 
         JButton OctoberButton = new JButton("October");
         OctoberButton.setBounds(340, 90, 100, 45);
-        OctoberButton.addActionListener(monthButtonListener);
+        OctoberButton.addActionListener(e -> {
+            int month=10;
+            arrangeCalendarDays(
+
+                    LocalDateTime.of(2021, month, 1, 12, 0).getDayOfWeek().ordinal(),
+                    YearMonth.of(LocalDateTime.now().getYear(), month).lengthOfMonth()
+            );
+        });
         contantPane.add(OctoberButton);
 
         JButton NovemberButton = new JButton("November");
         NovemberButton.setBounds(450, 90, 100, 45);
-        NovemberButton.addActionListener(monthButtonListener);
+        NovemberButton.addActionListener(e -> {
+            int month=11;
+            arrangeCalendarDays(
+
+                    LocalDateTime.of(2021, month, 1, 12, 0).getDayOfWeek().ordinal(),
+                    YearMonth.of(LocalDateTime.now().getYear(), month).lengthOfMonth()
+            );
+        });
         contantPane.add(NovemberButton);
 
         JButton DecemberButton = new JButton("December");
         DecemberButton.setBounds(560, 90, 100, 45);
-        DecemberButton.addActionListener(monthButtonListener);
+        DecemberButton.addActionListener(e -> {
+            int month=12;
+            arrangeCalendarDays(
+
+                    LocalDateTime.of(2021, month, 1, 12, 0).getDayOfWeek().ordinal(),
+                    YearMonth.of(LocalDateTime.now().getYear(), month).lengthOfMonth()
+            );
+        });
         contantPane.add(DecemberButton);
 
         JButton SelectDate = new JButton("Add event");
@@ -130,21 +210,21 @@ public class Main extends JFrame{
         calendarDays=new ArrayList<>();
         int startX=30;
         int startY=150;
-        int endX=680;
+        int endX=600;
         int endY=450;
         int width=(endX-startX-10)/7;
-        int height=(endY-startY-10)/7;
+        int height=(endY-startY-10)/6;
         int plusX=width+10;
         int plusY=height+10;
         int index=0;
-        for (int i = 0; i < 7; i++) {
-            for (int j = i==0?dayOfTheWeek:0; j < 6; j++) {
+        for (int i = 0; i < 6; i++) {
+            for (int j = i==0?dayOfTheWeek:0; j < 7; j++) {
                 JButton b=new JButton();
                 b.setBounds(startX+j*plusX,startY+i*plusY,width,height);
                 b.setText(++index+"");
                 contantPane.add(b);
                 calendarDays.add(b);
-                if (index>countOfDays){
+                if (index==countOfDays){
                     repaint();
                     return;
                 }
