@@ -5,8 +5,14 @@ import calendarium.db.util.HibernateUtil;
 import org.hibernate.Session;
 
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
+import java.sql.Timestamp;
+import java.time.ZonedDateTime;
 import java.util.Iterator;
+import java.util.List;
 
 public class EventRepository {
     @Transactional
@@ -59,6 +65,32 @@ public class EventRepository {
         Iterator<Event> it = query.getResultList().iterator();
         session.close();
         return it;
+    }
+    
+    @Transactional
+    public Event findById(long Id) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Event> query = cb.createQuery(Event.class);
+        Root<Event> root = query.from(Event.class);
+        query.select(root).where(cb.equal(root.get("event_id"), Id));
+        Query queryRes = session.createQuery(query);
+        Event result = (Event) queryRes.getSingleResult();
+        session.close();
+        return result;
+    }
+
+    @Transactional
+    public Iterator<Event> findAllBetweenDate(ZonedDateTime startTime, ZonedDateTime endTime) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Event> query = cb.createQuery(Event.class);
+        Root<Event> root = query.from(Event.class);
+        query.select(root).where(cb.and(cb.ge(root.get("start_time"), Timestamp.valueOf(startTime.toLocalDateTime()).getTime()), cb.le(root.get("end_time"), Timestamp.valueOf(endTime.toLocalDateTime()).getTime())));
+        Query queryRes = session.createQuery(query);
+        List<Event> results = queryRes.getResultList();
+        session.close();
+        return results.iterator();
     }
 
     @Transactional
