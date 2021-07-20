@@ -43,7 +43,7 @@ public class Main extends JFrame{
         contantPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contantPane);
         contantPane.setLayout(null);
-
+        addLabelsToDaysOfTheMonth();
 
 
         JButton JanButton = new JButton("January");
@@ -98,6 +98,7 @@ public class Main extends JFrame{
         JButton MayButton = new JButton("May");
         MayButton.setBounds(450, 30, 100, 45);
         MayButton.addActionListener(e -> {
+
             int month=5;
             arrangeCalendarDays(
 
@@ -202,23 +203,24 @@ public class Main extends JFrame{
         contantPane.add(SelectDate);
     }
 
+    private int startX=130;
+    private int startY=200;
+    private int endX=500;
+    private int endY=400;
+
     private void arrangeCalendarDays(int dayOfTheWeek,int countOfDays){
         for (JButton b:
              calendarDays) {
             contantPane.remove(b);
         }
         calendarDays=new ArrayList<>();
-        int startX=30;
-        int startY=150;
-        int endX=600;
-        int endY=450;
         int width=(endX-startX-10)/7;
-        int height=(endY-startY-10)/6;
+        int height=(endY-startY-10)/7;
         int plusX=width+10;
         int plusY=height+10;
         int index=0;
-        for (int i = 0; i < 6; i++) {
-            for (int j = i==0?dayOfTheWeek:0; j < 7; j++) {
+        for (int i = 1; i < 7; i++) {
+            for (int j = i==1?dayOfTheWeek:0; j < 7; j++) {
                 JButton b=new JButton();
                 b.setBounds(startX+j*plusX,startY+i*plusY,width,height);
                 b.setText(++index+"");
@@ -230,6 +232,28 @@ public class Main extends JFrame{
                 }
             }
         }
+    }
+
+    private void addLabelsToDaysOfTheMonth(){
+        int width=(endX-startX-10)/7;
+        int height=(endY-startY-10)/7;
+        int plusX=width+10;
+        int plusY=height+10;
+        JLabel[] labels=new JLabel[7];
+        for (int j=0;j<7;j++){
+            JLabel l=new JLabel("",SwingConstants.CENTER);
+            l.setBounds(startX+j*plusX,startY,width,height);
+            contantPane.add(l);
+            labels[j]=l;
+        }
+        labels[0].setText("M");
+        labels[1].setText("T");
+        labels[2].setText("W");
+        labels[3].setText("T");
+        labels[4].setText("F");
+        labels[5].setText("S");
+        labels[6].setText("S");
+
     }
 
  //   public void paint(Graphics g) {
