@@ -133,7 +133,7 @@ public class EventRepository {
         Root<Event> root = query.from(Event.class);
         ZonedDateTime start = date;
         ZonedDateTime end = date.plus(Period.ofDays(1));
-        query.select(root).where(cb.or(cb.greaterThanOrEqualTo(root.get("startTime"), start), cb.lessThanOrEqualTo(root.get("endTime"), end)));
+        query.select(root).where(cb.and(cb.greaterThanOrEqualTo(root.get("endTime"), start), cb.lessThanOrEqualTo(root.get("startTime"), end)));
         Query queryRes = session.createQuery(query);
         List<Event> results = queryRes.getResultList();
         session.close();
