@@ -17,7 +17,7 @@ import java.util.List;
 
 public class CalendarView extends JFrame{
     public static JFrame n;
-    private JPanel contantPane;
+    private JPanel contentPane;
 
     private ArrayList<JButton> calendarDays;
 
@@ -32,10 +32,10 @@ public class CalendarView extends JFrame{
 
         setBounds(100, 100, 680, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        contantPane = new JPanel();
-        contantPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        setContentPane(contantPane);
-        contantPane.setLayout(null);
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
         addLabelsToDaysOfTheMonth();
 
         LocalDateTime date=LocalDateTime.now();
@@ -44,7 +44,7 @@ public class CalendarView extends JFrame{
 
         JLabel lblYear=new JLabel("Year: ",SwingConstants.CENTER);
         lblYear.setBounds(10,20,100,20);
-        contantPane.add(lblYear);
+        contentPane.add(lblYear);
 
         JTextField txtYear=new JTextField(year+"");
         txtYear.setBounds(100,20,100,20);
@@ -59,20 +59,19 @@ public class CalendarView extends JFrame{
             }
 
         });
-        contantPane.add(txtYear);
+        contentPane.add(txtYear);
 
         initializeMonthButtons();
 
         JButton addEvent = new JButton("Add event");
         addEvent.addActionListener(e -> {
-            AddEventView fr = new AddEventView(dataBaseManager);
+            AddEditEventView fr = new AddEditEventView(dataBaseManager);
             fr.setVisible(true);
             fr.setResizable(false);
-            fr.setTitle("Create event");
         });
 
         addEvent.setBounds(500, 475, 100, 40);
-        contantPane.add(addEvent);
+        contentPane.add(addEvent);
     }
 
     private int startX=130;
@@ -82,7 +81,7 @@ public class CalendarView extends JFrame{
 
     private void clearButtons(){
         for (JButton b: calendarDays) {
-            contantPane.remove(b);
+            contentPane.remove(b);
         }
         calendarDays=new ArrayList<>();
         repaint();
@@ -109,7 +108,7 @@ public class CalendarView extends JFrame{
                     dayView.setTitle(getTitle()+" - "+ finalIndex);
                     dayView.setVisible(true);
                 });
-                contantPane.add(b);
+                contentPane.add(b);
                 calendarDays.add(b);
                 if (index==countOfDays){
                     repaint();
@@ -128,7 +127,7 @@ public class CalendarView extends JFrame{
         for (int j=0;j<7;j++){
             JLabel l=new JLabel("",SwingConstants.CENTER);
             l.setBounds(startX+j*plusX,startY,width,height);
-            contantPane.add(l);
+            contentPane.add(l);
             labels[j]=l;
         }
         labels[0].setText("M");
@@ -173,82 +172,82 @@ public class CalendarView extends JFrame{
             arrangeViewToMonth(1);
         });
 
-        contantPane.add(JanButton);
+        contentPane.add(JanButton);
 
         JButton FebButton = new JButton("February");
         FebButton.setBounds(120, 50, 100, 40);
         FebButton.addActionListener(e -> {
             arrangeViewToMonth(2);
         });
-        contantPane.add(FebButton);
+        contentPane.add(FebButton);
 
         JButton MarchButton = new JButton("March");
         MarchButton.setBounds(230, 50, 100, 40);
         MarchButton.addActionListener(e -> {
             arrangeViewToMonth(3);
         });
-        contantPane.add(MarchButton);
+        contentPane.add(MarchButton);
 
         JButton AprilButton = new JButton("April");
         AprilButton.setBounds(340, 50, 100, 40);
         AprilButton.addActionListener(e -> {
             arrangeViewToMonth(4);
         });
-        contantPane.add(AprilButton);
+        contentPane.add(AprilButton);
 
         JButton MayButton = new JButton("May");
         MayButton.setBounds(450, 50, 100, 40);
         MayButton.addActionListener(e -> {
             arrangeViewToMonth(5);
         });
-        contantPane.add(MayButton);
+        contentPane.add(MayButton);
 
         JButton JuneButton = new JButton("June");
         JuneButton.setBounds(560, 50, 100, 40);
         JuneButton.addActionListener(e -> {
             arrangeViewToMonth(6);
         });
-        contantPane.add(JuneButton);
+        contentPane.add(JuneButton);
 
         JButton JulyButton = new JButton("July");
         JulyButton.setBounds(10, 100, 100, 40);
         JulyButton.addActionListener(e -> {
             arrangeViewToMonth(7);
         });
-        contantPane.add(JulyButton);
+        contentPane.add(JulyButton);
 
         JButton AugustButton = new JButton("August");
         AugustButton.setBounds(120, 100, 100, 40);
         AugustButton.addActionListener(e -> {
             arrangeViewToMonth(8);
         });
-        contantPane.add(AugustButton);
+        contentPane.add(AugustButton);
 
         JButton SeptemberButton = new JButton("September");
         SeptemberButton.setBounds(230, 100, 100, 40);
         SeptemberButton.addActionListener(e -> {
             arrangeViewToMonth(9);
         });
-        contantPane.add(SeptemberButton);
+        contentPane.add(SeptemberButton);
 
         JButton OctoberButton = new JButton("October");
         OctoberButton.setBounds(340, 100, 100, 40);
         OctoberButton.addActionListener(e -> {
             arrangeViewToMonth(10);
         });
-        contantPane.add(OctoberButton);
+        contentPane.add(OctoberButton);
 
         JButton NovemberButton = new JButton("November");
         NovemberButton.setBounds(450, 100, 100, 40);
         NovemberButton.addActionListener(e -> {
             arrangeViewToMonth(11);
         });
-        contantPane.add(NovemberButton);
+        contentPane.add(NovemberButton);
 
         JButton DecemberButton = new JButton("December");
         DecemberButton.setBounds(560, 100, 100, 40);
         DecemberButton.addActionListener(e -> arrangeViewToMonth(12));
-        contantPane.add(DecemberButton);
+        contentPane.add(DecemberButton);
     }
 
 

@@ -9,9 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class DayView extends JFrame {
-
-
-    private JPanel contantPane;
+    private JPanel contentPane;
     private int width=680;
     private int height=600;
 
@@ -20,10 +18,10 @@ public class DayView extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, width, height);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        contantPane = new JPanel();
-        contantPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        setContentPane(contantPane);
-        contantPane.setLayout(null);
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
 
         if(events==null)return;
         //List<JButton> eventButtons=new ArrayList<>();
@@ -42,7 +40,7 @@ public class DayView extends JFrame {
                 //Todo: connect it with delete/edit event view
             });
             b.setBackground(new Color(255,100,100));
-            contantPane.add(b);
+            contentPane.add(b);
         }
 
 
