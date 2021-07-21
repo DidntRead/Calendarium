@@ -8,7 +8,9 @@ import com.github.lgooddatepicker.components.DatePickerSettings;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import javax.swing.JFrame;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.StyledDocument;
@@ -58,6 +60,8 @@ public class AddEditEventView extends JFrame {
         DatePicker startDatePicker = new DatePicker(settings);
         if (event.getStartTime()!=null)
             startDatePicker.setDate(event.getStartTime().toLocalDate());
+        else
+            startDatePicker.setDate(ZonedDateTime.now().toLocalDate());
         startDatePicker.setBounds(133, 232, 180, 33);
         contentPane.add(startDatePicker);
 
@@ -70,6 +74,8 @@ public class AddEditEventView extends JFrame {
         DatePicker endDatePicker = new DatePicker(settings2);
         if(event.getEndTime()!=null)
             endDatePicker.setDate(event.getEndTime().toLocalDate());
+        else
+            endDatePicker.setDate(ZonedDateTime.now().toLocalDate());
         endDatePicker.setBounds(133, 269, 180, 34);
         contentPane.add(endDatePicker);
 
@@ -89,6 +95,8 @@ public class AddEditEventView extends JFrame {
         TimePicker startTimePicker = new TimePicker(timePickerSettings);
         if(event.getStartTime()!=null)
             startTimePicker.setTime(event.getStartTime().toLocalTime());
+        else
+            startTimePicker.setTime(ZonedDateTime.now().toLocalTime());
         startTimePicker.setBounds(324, 234, 105, 31);
         contentPane.add(startTimePicker);
 
@@ -97,6 +105,8 @@ public class AddEditEventView extends JFrame {
         TimePicker endTimePicker = new TimePicker(timePickerSettings2);
         if(event.getEndTime()!=null)
             endTimePicker.setTime(event.getEndTime().toLocalTime());
+        else
+            endTimePicker.setTime(ZonedDateTime.now().toLocalTime());
         endTimePicker.setBounds(324, 272, 105, 31);
         contentPane.add(endTimePicker);
 

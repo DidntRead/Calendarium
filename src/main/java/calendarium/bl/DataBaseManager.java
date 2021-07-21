@@ -34,8 +34,14 @@ public class DataBaseManager {
 
     public void addEvent(Event event) throws Exception {
 
+        if(event.getName().isEmpty()){
+            throw new Exception("Every event should have tittle!");
+        }
+
         if (event.getStartTime().toInstant().compareTo(event.getEndTime().toInstant()) > 0)
             throw new Exception("StartTime is after endTime!");
+
+
         eventRepository.save(event);
 
     }
