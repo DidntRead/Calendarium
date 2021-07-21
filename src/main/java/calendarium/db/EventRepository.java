@@ -3,6 +3,7 @@ package calendarium.db;
 import calendarium.db.entity.Event;
 import calendarium.db.util.HibernateUtil;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -10,6 +11,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.Iterator;
 import java.util.List;
@@ -104,6 +106,17 @@ public class EventRepository {
         List<Event> results = queryRes.getResultList();
         session.close();
         return results.iterator();
+    }
+
+    @Transactional
+    public Event findNextEventWithNotification() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Event> query = cb.createQuery(Event.class);
+        Root<Event> root = query.from(Event.class);
+        query.select(root).orderBy(cb.asc(root.get("start_time"))).where(cb.and(cb.ge(root.get("start_time"), Timestamp.valueOf(LocalDateTime.now()).getTime()), cb.isTrue(root.get("event_notification"))));
+        Query queryRes = session.createQuery(query);
+        return (Event) queryRes.getResultList().get(0);
     }
 
     @Transactional

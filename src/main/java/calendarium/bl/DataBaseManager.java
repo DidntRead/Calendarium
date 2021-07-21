@@ -71,4 +71,8 @@ public class DataBaseManager {
     public Iterator<Event> getEventsWithNotifications(boolean notificationsEnabled) {
         return eventRepository.findAllWithNotifications(notificationsEnabled);
     }
+
+    public Event getNextEventWithNotification() {
+        return eventRepository.findNextEventWithNotification();
+    }
 }
