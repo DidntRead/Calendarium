@@ -17,6 +17,9 @@ public class Event {
     @Column(name = "event_name")
     String name;
 
+    @Column(name = "event_notification")
+    boolean eventNotification;
+
     @Column(name = "event_desc")
     String description;
 

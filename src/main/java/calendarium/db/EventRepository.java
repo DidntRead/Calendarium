@@ -94,6 +94,19 @@ public class EventRepository {
     }
 
     @Transactional
+    public Iterator<Event> findAllWithNotifications(boolean notificationsEnabled) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Event> query = cb.createQuery(Event.class);
+        Root<Event> root = query.from(Event.class);
+        query.select(root).where(cb.equal(root.get("event_notification"), notificationsEnabled));
+        Query queryRes = session.createQuery(query);
+        List<Event> results = queryRes.getResultList();
+        session.close();
+        return results.iterator();
+    }
+
+    @Transactional
     public void update(Event ev) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.update(ev);
