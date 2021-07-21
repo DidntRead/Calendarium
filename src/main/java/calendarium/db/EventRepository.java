@@ -2,18 +2,13 @@ package calendarium.db;
 
 import calendarium.db.entity.Event;
 import calendarium.db.util.HibernateUtil;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.Iterator;
 import java.util.List;
@@ -56,17 +51,25 @@ public class EventRepository {
     @Transactional
     public long count() {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        Query query = session.createSQLQuery("select * from event");
-        long count = query.getResultList().size();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Event> query = cb.createQuery(Event.class);
+        Root<Event> root = query.from(Event.class);
+        query.select(root);
+        Query queryRes = session.createQuery(query);
+        long size = queryRes.getResultList().size();
         session.close();
-        return count;
+        return size;
     }
 
     @Transactional
     public Iterator<Event> findAll() {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        Query query = session.createSQLQuery("select * from event");
-        Iterator<Event> it = query.getResultList().iterator();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Event> query = cb.createQuery(Event.class);
+        Root<Event> root = query.from(Event.class);
+        query.select(root);
+        Query queryRes = session.createQuery(query);
+        Iterator<Event> it = queryRes.getResultList().iterator();
         session.close();
         return it;
     }
@@ -77,7 +80,7 @@ public class EventRepository {
         CriteriaBuilder cb = session.getCriteriaBuilder();
         CriteriaQuery<Event> query = cb.createQuery(Event.class);
         Root<Event> root = query.from(Event.class);
-        query.select(root).where(cb.equal(root.get("event_id"), Id));
+        query.select(root).where(cb.equal(root.get("eventID"), Id));
         Query queryRes = session.createQuery(query);
         Event result = (Event) queryRes.getSingleResult();
         session.close();
@@ -87,12 +90,14 @@ public class EventRepository {
     @Transactional
     public Iterator<Event> findAllBetweenDate(ZonedDateTime startTime, ZonedDateTime endTime) {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        Criteria cr = session.createCriteria(Event.class);
-        cr.add(Restrictions.ge("startTime", startTime));
-        cr.add(Restrictions.le("endTime", endTime));
-        Iterator<Event> results = cr.list().iterator();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Event> query = cb.createQuery(Event.class);
+        Root<Event> root = query.from(Event.class);
+        query.select(root).where(cb.greaterThanOrEqualTo(root.get("startTime"), startTime), cb.lessThanOrEqualTo(root.get("endTime"), endTime));
+        Query queryRes = session.createQuery(query);
+        List<Event> results = queryRes.getResultList();
         session.close();
-        return results;
+        return results.iterator();
     }
 
     @Transactional
@@ -101,7 +106,7 @@ public class EventRepository {
         CriteriaBuilder cb = session.getCriteriaBuilder();
         CriteriaQuery<Event> query = cb.createQuery(Event.class);
         Root<Event> root = query.from(Event.class);
-        query.select(root).where(cb.equal(root.get("event_notification"), notificationsEnabled));
+        query.select(root).where(cb.equal(root.get("eventNotification"), notificationsEnabled));
         Query queryRes = session.createQuery(query);
         List<Event> results = queryRes.getResultList();
         session.close();
@@ -114,7 +119,7 @@ public class EventRepository {
         CriteriaBuilder cb = session.getCriteriaBuilder();
         CriteriaQuery<Event> query = cb.createQuery(Event.class);
         Root<Event> root = query.from(Event.class);
-        query.select(root).orderBy(cb.asc(root.get("start_time"))).where(cb.and(cb.ge(root.get("start_time"), Timestamp.valueOf(LocalDateTime.now()).getTime()), cb.isTrue(root.get("event_notification"))));
+        query.select(root).orderBy(cb.asc(root.get("startTime"))).where(cb.and(cb.greaterThanOrEqualTo(root.get("startTime"), ZonedDateTime.now()), cb.isTrue(root.get("eventNotification"))));
         Query queryRes = session.createQuery(query);
         return (Event) queryRes.getResultList().get(0);
     }
