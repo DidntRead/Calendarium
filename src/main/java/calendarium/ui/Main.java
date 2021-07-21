@@ -5,12 +5,9 @@ import javax.swing.*;
 import java.awt.EventQueue;
 import javax.swing.border.EmptyBorder;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Main extends JFrame{
     public static JFrame n;
@@ -25,7 +22,6 @@ public class Main extends JFrame{
                     Main frame = new Main();
                     frame.setVisible(true);
                     frame.setResizable(false);
-                    frame.setTitle("Calendarium");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -33,6 +29,7 @@ public class Main extends JFrame{
         });
     }
 
+    private int year;
 
     public Main() {
         calendarDays=new ArrayList<>();
@@ -45,163 +42,41 @@ public class Main extends JFrame{
         contantPane.setLayout(null);
         addLabelsToDaysOfTheMonth();
 
+        LocalDateTime date=LocalDateTime.now();
+        year=date.getYear();
+        arrangeViewToMonth(date.getMonth().ordinal());
 
-        JButton JanButton = new JButton("January");
-        JanButton.setBounds(10, 30, 100, 45);
-        JanButton.addActionListener(e -> {
-            int month=1;
-            arrangeCalendarDays(
+        JLabel lblYear=new JLabel("Year: ",SwingConstants.CENTER);
+        lblYear.setBounds(10,20,100,20);
+        contantPane.add(lblYear);
 
-                    LocalDateTime.of(2021, month, 1, 12, 0).getDayOfWeek().ordinal(),
-                    YearMonth.of(LocalDateTime.now().getYear(), month).lengthOfMonth()
-            );
+        JTextField txtYear=new JTextField(year+"");
+        txtYear.setBounds(100,20,100,20);
+        txtYear.addActionListener(a->{
+             try {
+                year = Integer.parseInt(txtYear.getText());
+                LocalDateTime.of(year, 1, 1, 12, 0);
+                arrangeViewToMonth(1);
+            }catch (Exception e){
+                JOptionPane.showMessageDialog(null,"Invalid year!");
+                txtYear.setText(year+"");
+            }
+
         });
+        contantPane.add(txtYear);
 
-        contantPane.add(JanButton);
+        initializeMonthButtons();
 
-        JButton FebButton = new JButton("February");
-        FebButton.setBounds(120, 30, 100, 45);
-        FebButton.addActionListener(e -> {
-            int month=2;
-            arrangeCalendarDays(
-
-                    LocalDateTime.of(2021, month, 1, 12, 0).getDayOfWeek().ordinal(),
-                    YearMonth.of(LocalDateTime.now().getYear(), month).lengthOfMonth()
-            );
-        });
-        contantPane.add(FebButton);
-
-        JButton MarchButton = new JButton("March");
-        MarchButton.setBounds(230, 30, 100, 45);
-        MarchButton.addActionListener(e -> {
-            int month=3;
-            arrangeCalendarDays(
-
-                    LocalDateTime.of(2021, month, 1, 12, 0).getDayOfWeek().ordinal(),
-                    YearMonth.of(LocalDateTime.now().getYear(), month).lengthOfMonth()
-            );
-        });
-        contantPane.add(MarchButton);
-
-        JButton AprilButton = new JButton("April");
-        AprilButton.setBounds(340, 30, 100, 45);
-        AprilButton.addActionListener(e -> {
-            int month=4;
-            arrangeCalendarDays(
-
-                    LocalDateTime.of(2021, month, 1, 12, 0).getDayOfWeek().ordinal(),
-                    YearMonth.of(LocalDateTime.now().getYear(), month).lengthOfMonth()
-            );
-        });
-        contantPane.add(AprilButton);
-
-        JButton MayButton = new JButton("May");
-        MayButton.setBounds(450, 30, 100, 45);
-        MayButton.addActionListener(e -> {
-
-            int month=5;
-            arrangeCalendarDays(
-
-                    LocalDateTime.of(2021, month, 1, 12, 0).getDayOfWeek().ordinal(),
-                    YearMonth.of(LocalDateTime.now().getYear(), month).lengthOfMonth()
-            );
-        });
-        contantPane.add(MayButton);
-
-        JButton JuneButton = new JButton("June");
-        JuneButton.setBounds(560, 30, 100, 45);
-        JuneButton.addActionListener(e -> {
-            int month=6;
-            arrangeCalendarDays(
-
-                    LocalDateTime.of(2021, month, 1, 12, 0).getDayOfWeek().ordinal(),
-                    YearMonth.of(LocalDateTime.now().getYear(), month).lengthOfMonth()
-            );
-        });
-        contantPane.add(JuneButton);
-
-        JButton JulyButton = new JButton("July");
-        JulyButton.setBounds(10, 90, 100, 45);
-        JulyButton.addActionListener(e -> {
-            int month=7;
-            arrangeCalendarDays(
-
-                    LocalDateTime.of(2021, month, 1, 12, 0).getDayOfWeek().ordinal(),
-                    YearMonth.of(LocalDateTime.now().getYear(), month).lengthOfMonth()
-            );
-        });
-        contantPane.add(JulyButton);
-
-        JButton AugustButton = new JButton("August");
-        AugustButton.setBounds(120, 90, 100, 45);
-        AugustButton.addActionListener(e -> {
-            int month=8;
-            arrangeCalendarDays(
-
-                    LocalDateTime.of(2021, month, 1, 12, 0).getDayOfWeek().ordinal(),
-                    YearMonth.of(LocalDateTime.now().getYear(), month).lengthOfMonth()
-            );
-        });
-        contantPane.add(AugustButton);
-
-        JButton SeptemberButton = new JButton("September");
-        SeptemberButton.setBounds(230, 90, 100, 45);
-        SeptemberButton.addActionListener(e -> {
-            int month=9;
-            arrangeCalendarDays(
-
-                    LocalDateTime.of(2021, month, 1, 12, 0).getDayOfWeek().ordinal(),
-                    YearMonth.of(LocalDateTime.now().getYear(), month).lengthOfMonth()
-            );
-        });
-        contantPane.add(SeptemberButton);
-
-        JButton OctoberButton = new JButton("October");
-        OctoberButton.setBounds(340, 90, 100, 45);
-        OctoberButton.addActionListener(e -> {
-            int month=10;
-            arrangeCalendarDays(
-
-                    LocalDateTime.of(2021, month, 1, 12, 0).getDayOfWeek().ordinal(),
-                    YearMonth.of(LocalDateTime.now().getYear(), month).lengthOfMonth()
-            );
-        });
-        contantPane.add(OctoberButton);
-
-        JButton NovemberButton = new JButton("November");
-        NovemberButton.setBounds(450, 90, 100, 45);
-        NovemberButton.addActionListener(e -> {
-            int month=11;
-            arrangeCalendarDays(
-
-                    LocalDateTime.of(2021, month, 1, 12, 0).getDayOfWeek().ordinal(),
-                    YearMonth.of(LocalDateTime.now().getYear(), month).lengthOfMonth()
-            );
-        });
-        contantPane.add(NovemberButton);
-
-        JButton DecemberButton = new JButton("December");
-        DecemberButton.setBounds(560, 90, 100, 45);
-        DecemberButton.addActionListener(e -> {
-            int month=12;
-            arrangeCalendarDays(
-
-                    LocalDateTime.of(2021, month, 1, 12, 0).getDayOfWeek().ordinal(),
-                    YearMonth.of(LocalDateTime.now().getYear(), month).lengthOfMonth()
-            );
-        });
-        contantPane.add(DecemberButton);
-
-        JButton SelectDate = new JButton("Add event");
-        SelectDate.addActionListener(e -> {
+        JButton addEvent = new JButton("Add event");
+        addEvent.addActionListener(e -> {
             AddEventUI fr = new AddEventUI();
             fr.setVisible(true);
             fr.setResizable(false);
             fr.setTitle("Create event");
         });
 
-        SelectDate.setBounds(500, 475, 100, 45);
-        contantPane.add(SelectDate);
+        addEvent.setBounds(500, 475, 100, 40);
+        contantPane.add(addEvent);
     }
 
     private int startX=130;
@@ -209,11 +84,16 @@ public class Main extends JFrame{
     private int endX=500;
     private int endY=400;
 
-    private void arrangeCalendarDays(int dayOfTheWeek,int countOfDays){
+    private void clearButtons(){
         for (JButton b: calendarDays) {
             contantPane.remove(b);
         }
         calendarDays=new ArrayList<>();
+        repaint();
+    }
+
+    private void  arrangeCalendarDays(int dayOfTheWeek,int countOfDays){
+        clearButtons();
         int width=(endX-startX-10)/7;
         int height=(endY-startY-10)/7;
         int plusX=width+10;
@@ -256,29 +136,99 @@ public class Main extends JFrame{
 
     }
 
- //   public void paint(Graphics g) {
-//paint(g);
+    private void initializeMonthButtons(){
+        JButton JanButton = new JButton("January");
+        JanButton.setBounds(10, 50, 100, 40);
+        JanButton.addActionListener(e -> {
+            arrangeViewToMonth(1);
+        });
 
-        /*g.drawLine(70, 200, 600,200);
+        contantPane.add(JanButton);
 
-        g.drawLine(70, 250, 600,250);
+        JButton FebButton = new JButton("February");
+        FebButton.setBounds(120, 50, 100, 40);
+        FebButton.addActionListener(e -> {
+            arrangeViewToMonth(2);
+        });
+        contantPane.add(FebButton);
 
-        g.drawLine(70, 300, 600,300);
+        JButton MarchButton = new JButton("March");
+        MarchButton.setBounds(230, 50, 100, 40);
+        MarchButton.addActionListener(e -> {
+            arrangeViewToMonth(3);
+        });
+        contantPane.add(MarchButton);
 
-        g.drawLine(70, 350, 600,350);
+        JButton AprilButton = new JButton("April");
+        AprilButton.setBounds(340, 50, 100, 40);
+        AprilButton.addActionListener(e -> {
+            arrangeViewToMonth(4);
+        });
+        contantPane.add(AprilButton);
 
-        g.drawLine(70, 400, 600,400);
+        JButton MayButton = new JButton("May");
+        MayButton.setBounds(450, 50, 100, 40);
+        MayButton.addActionListener(e -> {
+            arrangeViewToMonth(5);
+        });
+        contantPane.add(MayButton);
 
-        g.drawLine(70, 450, 600,450);
+        JButton JuneButton = new JButton("June");
+        JuneButton.setBounds(560, 50, 100, 40);
+        JuneButton.addActionListener(e -> {
+            arrangeViewToMonth(6);
+        });
+        contantPane.add(JuneButton);
 
-        g.drawLine(70, 500, 600,500);
+        JButton JulyButton = new JButton("July");
+        JulyButton.setBounds(10, 100, 100, 40);
+        JulyButton.addActionListener(e -> {
+            arrangeViewToMonth(7);
+        });
+        contantPane.add(JulyButton);
 
-        g.drawLine(70, 550, 600,550);*/
-/*for(int i=0;i<40){
-        g.drawRect();
+        JButton AugustButton = new JButton("August");
+        AugustButton.setBounds(120, 100, 100, 40);
+        AugustButton.addActionListener(e -> {
+            arrangeViewToMonth(8);
+        });
+        contantPane.add(AugustButton);
+
+        JButton SeptemberButton = new JButton("September");
+        SeptemberButton.setBounds(230, 100, 100, 40);
+        SeptemberButton.addActionListener(e -> {
+            arrangeViewToMonth(9);
+        });
+        contantPane.add(SeptemberButton);
+
+        JButton OctoberButton = new JButton("October");
+        OctoberButton.setBounds(340, 100, 100, 40);
+        OctoberButton.addActionListener(e -> {
+            arrangeViewToMonth(10);
+        });
+        contantPane.add(OctoberButton);
+
+        JButton NovemberButton = new JButton("November");
+        NovemberButton.setBounds(450, 100, 100, 40);
+        NovemberButton.addActionListener(e -> {
+            arrangeViewToMonth(11);
+        });
+        contantPane.add(NovemberButton);
+
+        JButton DecemberButton = new JButton("December");
+        DecemberButton.setBounds(560, 100, 100, 40);
+        DecemberButton.addActionListener(e -> {
+            arrangeViewToMonth(12);
+        });
+        contantPane.add(DecemberButton);
     }
-*/
-   // }
 
-
+    private void arrangeViewToMonth(int month){
+        setTitle("Calendarium -- "+year+" - "+LocalDateTime.of(year, month, 1, 12, 0).getMonth());
+        arrangeCalendarDays(
+                LocalDateTime.of(year, month, 1, 12, 0).getDayOfWeek().ordinal(),
+                YearMonth.of(LocalDateTime.now().getYear(), month).lengthOfMonth()
+        );
     }
+
+}
