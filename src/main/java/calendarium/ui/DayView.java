@@ -34,8 +34,9 @@ public class DayView extends JFrame {
         int i=0;
         for (Event event:events) {
             JButton b=new JButton(event.getName()+": "+
-                    DateTimeFormatter.ofPattern("yyyy/MM/dd - hh:mm").format(event.getStartTime())+" - "+
-                    DateTimeFormatter.ofPattern("yyyy/MM/dd - hh:mm").format(event.getEndTime()));
+                    DateTimeFormatter.ofPattern("yyyy/MM/dd - hh:mm").format(event.getStartTime()) +
+                    (event.getStartTime().equals(event.getEndTime()) ? "" : " - " +
+                    DateTimeFormatter.ofPattern("yyyy/MM/dd - hh:mm").format(event.getEndTime())));
             b.setBounds(startX,startY+height*i++,width,height-2 );
             b.addActionListener(l->{
                 AddEditEventView fr = new AddEditEventView(manager, event);
