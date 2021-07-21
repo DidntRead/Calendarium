@@ -27,3 +27,6 @@ target
 
 # IntelliJ folder
 .idea
+
+# IntelliJ project files
+*.iml
