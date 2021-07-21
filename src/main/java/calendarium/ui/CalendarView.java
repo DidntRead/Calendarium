@@ -13,6 +13,7 @@ import java.time.YearMonth;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class CalendarView extends JFrame{
     public static JFrame n;
@@ -87,7 +88,7 @@ public class CalendarView extends JFrame{
         repaint();
     }
 
-    private void  arrangeCalendarDays(int dayOfTheWeek,int countOfDays){
+    private void  arrangeCalendarDays(int dayOfTheWeek,int countOfDays,int month){
         clearButtons();
         int width=(endX-startX-10)/7;
         int height=(endY-startY-10)/7;
@@ -99,6 +100,15 @@ public class CalendarView extends JFrame{
                 JButton b=new JButton();
                 b.setBounds(startX+j*plusX,startY+i*plusY,width,height);
                 b.setText(++index+"");
+                int finalIndex = index;
+                b.addActionListener(l->{
+                    List<Event> eventList=new ArrayList<>();
+                    Iterator<Event> eventIterator=dataBaseManager.getEventsContainingDate(ZonedDateTime.of(year,month,finalIndex,12,0,0,0,ZonedDateTime.now().getZone()));
+                    eventIterator.forEachRemaining(eventList::add);
+                    DayView dayView=new DayView(eventList);
+                    dayView.setTitle(getTitle()+" - "+ finalIndex);
+                    dayView.setVisible(true);
+                });
                 contantPane.add(b);
                 calendarDays.add(b);
                 if (index==countOfDays){
@@ -135,7 +145,8 @@ public class CalendarView extends JFrame{
         setTitle("Calendarium -- "+year+" - "+LocalDateTime.of(year, month, 1, 12, 0).getMonth());
         arrangeCalendarDays(
                 LocalDateTime.of(year, month, 1, 12, 0).getDayOfWeek().ordinal(),
-                YearMonth.of(LocalDateTime.now().getYear(), month).lengthOfMonth()
+                YearMonth.of(LocalDateTime.now().getYear(), month).lengthOfMonth(),
+                month
         );
         fillDaysWithEvents(month);
     }
