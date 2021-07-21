@@ -103,7 +103,7 @@ public class CalendarView extends JFrame{
                 int finalIndex = index;
                 b.addActionListener(l->{
                     List<Event> eventList=new ArrayList<>();
-                    Iterator<Event> eventIterator=dataBaseManager.getEventsContainingDate(ZonedDateTime.of(year,month,finalIndex,12,0,0,0,ZonedDateTime.now().getZone()));
+                    Iterator<Event> eventIterator=dataBaseManager.getEventsContainingDate(ZonedDateTime.of(year,month,finalIndex,0,0,0,0,ZonedDateTime.now().getZone()));
                     eventIterator.forEachRemaining(eventList::add);
                     DayView dayView=new DayView(eventList);
                     dayView.setTitle(getTitle()+" - "+ finalIndex);
