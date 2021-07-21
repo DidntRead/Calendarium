@@ -12,6 +12,12 @@ public class Main {
     private static CalendarView frame;
 
     public static void main(String[] args) {
+        try {
+            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
+
         WindowListener windowListener = new WindowListener() {
             @Override
             public void windowOpened(WindowEvent e) {

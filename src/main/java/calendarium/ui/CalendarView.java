@@ -47,7 +47,7 @@ public class CalendarView extends JFrame{
         contentPane.add(lblYear);
 
         JTextField txtYear=new JTextField(year+"");
-        txtYear.setBounds(100,20,100,20);
+        txtYear.setBounds(100,20,100,30);
         txtYear.addActionListener(a->{
              try {
                 year = Integer.parseInt(txtYear.getText());
