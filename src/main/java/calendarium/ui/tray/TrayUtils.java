@@ -1,7 +1,5 @@
 package calendarium.ui.tray;
 
-import calendarium.ui.TrayListener;
-
 import java.awt.*;
 import java.awt.TrayIcon.MessageType;
 import java.awt.event.MouseEvent;

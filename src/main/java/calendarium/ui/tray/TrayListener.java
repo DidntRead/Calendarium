@@ -1,4 +1,4 @@
-package calendarium.ui;
+package calendarium.ui.tray;
 
 public interface TrayListener {
     void open();

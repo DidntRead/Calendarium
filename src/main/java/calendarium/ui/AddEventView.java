@@ -1,5 +1,8 @@
 package calendarium.ui;
 
+import com.github.lgooddatepicker.components.DatePicker;
+import com.github.lgooddatepicker.components.DatePickerSettings;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -42,23 +45,21 @@ public class AddEventView extends JFrame{
         DayText.setBounds(80, 15, 180, 26);
         contentPane.add(DayText);
 
-        String[] dayStart = { "1", "2", "3", "5", "6","7", "8", "9", "10", "11","12", "13", "14", "15", "16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"};
-        JComboBox DayStartList = new JComboBox(dayStart);
-        DayStartList.setBounds(55, 40, 120, 45);
-        contentPane.add(DayStartList);
-        DayStartList.setFont(font1);
-        DayStartList.setVisible(true);
+        DatePickerSettings settings = new DatePickerSettings();
+        settings.setAllowEmptyDates(false);
+        DatePicker datePicker = new DatePicker(settings);
+        datePicker.setBounds(55, 40, 160, 45);
+        contentPane.add(datePicker);
 
         JLabel DayTextEnd = new JLabel("Event end:");
         DayTextEnd.setBounds(490, 15, 180, 26);
         contentPane.add(DayTextEnd);
 
-        String[] dayEnd = { "1", "2", "3", "5", "6","7", "8", "9", "10", "11","12", "13", "14", "15", "16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"};
-        JComboBox DayEndList = new JComboBox(dayEnd);
-        DayEndList.setBounds(465, 40, 120, 45);
-        contentPane.add(DayEndList);
-        DayEndList.setFont(font1);
-        DayEndList.setVisible(true);
+        DatePickerSettings settings2 = new DatePickerSettings();
+        settings2.setAllowEmptyDates(false);
+        DatePicker datePicker2 = new DatePicker(settings2);
+        datePicker2.setBounds(465, 40, 160, 45);
+        contentPane.add(datePicker2);
 
         JTextPane AddInfoHere = new JTextPane();
         //        f.add(AddInfoHere);
@@ -67,6 +68,6 @@ public class AddEventView extends JFrame{
         scrollPane.setBounds(50, 120, 550, 240);
         contentPane.add(scrollPane);
 
-        }
+    }
 
 }

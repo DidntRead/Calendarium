@@ -1,11 +1,10 @@
 package calendarium.ui;
 
+import calendarium.ui.tray.TrayListener;
 import calendarium.ui.tray.TrayUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
