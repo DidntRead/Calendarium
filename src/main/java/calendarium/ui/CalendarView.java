@@ -1,13 +1,18 @@
 package calendarium.ui;
 
+import calendarium.bl.DataBaseManager;
+import calendarium.db.entity.Event;
+
 import javax.swing.*;
 
-import java.awt.EventQueue;
+import java.awt.*;
 import javax.swing.border.EmptyBorder;
 
 import java.time.LocalDateTime;
 import java.time.YearMonth;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class CalendarView extends JFrame{
     public static JFrame n;
@@ -15,9 +20,13 @@ public class CalendarView extends JFrame{
 
     private ArrayList<JButton> calendarDays;
 
+    private DataBaseManager dataBaseManager;
+
     private int year;
 
     public CalendarView() {
+        dataBaseManager=new DataBaseManager();
+
         calendarDays=new ArrayList<>();
 
         setBounds(100, 100, 680, 600);
@@ -30,7 +39,7 @@ public class CalendarView extends JFrame{
 
         LocalDateTime date=LocalDateTime.now();
         year=date.getYear();
-        arrangeViewToMonth(date.getMonth().ordinal());
+        arrangeViewToMonth(date.getMonth().getValue());
 
         JLabel lblYear=new JLabel("Year: ",SwingConstants.CENTER);
         lblYear.setBounds(10,20,100,20);
@@ -55,7 +64,7 @@ public class CalendarView extends JFrame{
 
         JButton addEvent = new JButton("Add event");
         addEvent.addActionListener(e -> {
-            AddEventView fr = new AddEventView();
+            AddEventView fr = new AddEventView(dataBaseManager);
             fr.setVisible(true);
             fr.setResizable(false);
             fr.setTitle("Create event");
@@ -120,6 +129,30 @@ public class CalendarView extends JFrame{
         labels[5].setText("S");
         labels[6].setText("S");
 
+    }
+
+    private void arrangeViewToMonth(int month){
+        setTitle("Calendarium -- "+year+" - "+LocalDateTime.of(year, month, 1, 12, 0).getMonth());
+        arrangeCalendarDays(
+                LocalDateTime.of(year, month, 1, 12, 0).getDayOfWeek().ordinal(),
+                YearMonth.of(LocalDateTime.now().getYear(), month).lengthOfMonth()
+        );
+        fillDaysWithEvents(month);
+    }
+
+    private void fillDaysWithEvents(int month){
+        Iterator<Event> events=dataBaseManager.getEventsBetween(
+                ZonedDateTime.of(year,month,1,12,0,0,0,ZonedDateTime.now().getZone()),
+                ZonedDateTime.of(year,month,YearMonth.of(LocalDateTime.now().getYear(), month).lengthOfMonth(),12,0,0,0,ZonedDateTime.now().getZone())
+        );
+        for (Iterator<Event> it = events; it.hasNext(); ) {
+            Event event = it.next();
+            int i =event.getStartTime().getMonth().getValue()==month?event.getStartTime().getDayOfMonth():0;
+            int n=event.getEndTime().getMonth().getValue()==month?event.getEndTime().getDayOfMonth(): YearMonth.of(LocalDateTime.now().getYear(), month).lengthOfMonth();
+            for (;i<=n;i++){
+                calendarDays.get(i-1).setBackground(Color.RED);
+            }
+        }
     }
 
     private void initializeMonthButtons(){
@@ -207,12 +240,6 @@ public class CalendarView extends JFrame{
         contantPane.add(DecemberButton);
     }
 
-    private void arrangeViewToMonth(int month){
-        setTitle("Calendarium -- "+year+" - "+LocalDateTime.of(year, month, 1, 12, 0).getMonth());
-        arrangeCalendarDays(
-                LocalDateTime.of(year, month, 1, 12, 0).getDayOfWeek().ordinal(),
-                YearMonth.of(LocalDateTime.now().getYear(), month).lengthOfMonth()
-        );
-    }
+
 
 }
