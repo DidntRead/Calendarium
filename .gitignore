@@ -30,3 +30,6 @@ target
 
 # IntelliJ project files
 *.iml
+
+# Database persistent storage
+db/postgres-data/actual_data/
