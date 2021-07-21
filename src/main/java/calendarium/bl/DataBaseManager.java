@@ -23,6 +23,7 @@ public class DataBaseManager {
             event.setDescription(description);
             event.setStartTime(startTime);
             event.setEndTime(endTime);
+            event.setEventNotification(notification);
             eventRepository.save(event);
             return true;
         }catch (Exception e){
@@ -41,6 +42,7 @@ public class DataBaseManager {
             ev.setDescription(description);
             ev.setStartTime(startTime);
             ev.setEndTime(endTime);
+            ev.setEventNotification(notification);
             eventRepository.update(ev);
             return true;
         }catch (Exception e){
