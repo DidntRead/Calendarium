@@ -19,9 +19,23 @@ public class DataBaseManager {
             Event event=new Event();
             event.setName(name);
             event.setDescription(description);
+            if(startTime.toInstant().compareTo(endTime.toInstant())>0)
+                throw new Exception("StartTime is after endTime!");
             event.setStartTime(startTime);
             event.setEndTime(endTime);
             event.setEventNotification(notification);
+            eventRepository.save(event);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean addEvent(Event event){
+        try {
+            if(event.getStartTime().toInstant().compareTo(event.getEndTime().toInstant())>0)
+                throw new Exception("StartTime is after endTime!");
             eventRepository.save(event);
             return true;
         }catch (Exception e){
@@ -36,12 +50,29 @@ public class DataBaseManager {
             if((ev = eventRepository.findById(id))==null){
                 throw new Exception("Event not found!");
             }
+            if(startTime.toInstant().compareTo(endTime.toInstant())>0)
+                throw new Exception("StartTime is after endTime!");
             ev.setName(name);
             ev.setDescription(description);
             ev.setStartTime(startTime);
             ev.setEndTime(endTime);
             ev.setEventNotification(notification);
             eventRepository.update(ev);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean updateEvent(Event event){
+        try {
+            if( eventRepository.findById(event.getEventID())==null){
+                throw new Exception("Event not found!");
+            }
+            if(event.getStartTime().toInstant().compareTo(event.getEndTime().toInstant())>0)
+                throw new Exception("StartTime is after endTime!");
+            eventRepository.update(event);
             return true;
         }catch (Exception e){
             e.printStackTrace();

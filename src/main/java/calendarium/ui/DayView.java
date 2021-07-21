@@ -6,19 +6,16 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 public class DayView extends JFrame {
 
-    private List<Event> events;
 
     private JPanel contantPane;
     private int width=680;
     private int height=600;
 
     public DayView(List<Event> events){
-        this.events=events;
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, width, height);
