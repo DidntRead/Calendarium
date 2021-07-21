@@ -56,7 +56,8 @@ public class AddEditEventView extends JFrame {
         DatePickerSettings settings = new DatePickerSettings();
         settings.setAllowEmptyDates(false);
         DatePicker startDatePicker = new DatePicker(settings);
-        startDatePicker.setDate(event.getStartTime().toLocalDate());
+        if (event.getStartTime()!=null)
+            startDatePicker.setDate(event.getStartTime().toLocalDate());
         startDatePicker.setBounds(133, 232, 180, 33);
         contentPane.add(startDatePicker);
 
@@ -67,7 +68,8 @@ public class AddEditEventView extends JFrame {
         DatePickerSettings settings2 = new DatePickerSettings();
         settings2.setAllowEmptyDates(false);
         DatePicker endDatePicker = new DatePicker(settings2);
-        endDatePicker.setDate(event.getEndTime().toLocalDate());
+        if(event.getEndTime()!=null)
+            endDatePicker.setDate(event.getEndTime().toLocalDate());
         endDatePicker.setBounds(133, 269, 180, 34);
         contentPane.add(endDatePicker);
 
@@ -85,14 +87,16 @@ public class AddEditEventView extends JFrame {
         TimePickerSettings timePickerSettings = new TimePickerSettings();
         timePickerSettings.setAllowEmptyTimes(false);
         TimePicker startTimePicker = new TimePicker(timePickerSettings);
-        startTimePicker.setTime(event.getStartTime().toLocalTime());
+        if(event.getStartTime()!=null)
+            startTimePicker.setTime(event.getStartTime().toLocalTime());
         startTimePicker.setBounds(324, 234, 105, 31);
         contentPane.add(startTimePicker);
 
         TimePickerSettings timePickerSettings2 = new TimePickerSettings();
         timePickerSettings2.setAllowEmptyTimes(false);
         TimePicker endTimePicker = new TimePicker(timePickerSettings2);
-        endTimePicker.setTime(event.getEndTime().toLocalTime());
+        if(event.getEndTime()!=null)
+            endTimePicker.setTime(event.getEndTime().toLocalTime());
         endTimePicker.setBounds(324, 272, 105, 31);
         contentPane.add(endTimePicker);
 
@@ -110,9 +114,19 @@ public class AddEditEventView extends JFrame {
             event.setEndTime(endDatePicker.getDate().atTime(endTimePicker.getTime()).atZone(ZoneId.systemDefault()));
             event.setEventNotification(checkNotification.isSelected());
             if(updating) {
-                manager.updateEvent(event);
+                try{
+                    manager.updateEvent(event);
+                    JOptionPane.showMessageDialog(null,"Event updated successfully");
+                }catch (Exception exception){
+                    JOptionPane.showMessageDialog(null,"Error: "+exception.getMessage());
+                }
             } else {
-                manager.addEvent(event);
+                try{
+                    manager.addEvent(event);
+                    JOptionPane.showMessageDialog(null,"Event created successfully");
+                }catch (Exception exception){
+                    JOptionPane.showMessageDialog(null,"Error: "+exception.getMessage());
+                }
             }
             setVisible(false);
             dispose();
