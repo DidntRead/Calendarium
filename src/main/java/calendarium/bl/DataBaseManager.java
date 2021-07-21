@@ -14,8 +14,6 @@ public class DataBaseManager {
         eventRepository=new EventRepository();
     }
 
-
-
     public boolean addEvent(String name, String description, ZonedDateTime startTime, ZonedDateTime endTime, boolean notification){
         try {
             Event event=new Event();
@@ -76,5 +74,9 @@ public class DataBaseManager {
 
     public Event getNextEventWithNotification() {
         return eventRepository.findNextEventWithNotification();
+    }
+
+    public Iterator<Event> getEventsContainingDate(ZonedDateTime date) {
+        return eventRepository.findAllContainingDate(date);
     }
 }

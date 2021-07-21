@@ -9,6 +9,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
+import java.time.Period;
 import java.time.ZonedDateTime;
 import java.util.Iterator;
 import java.util.List;
@@ -122,6 +123,21 @@ public class EventRepository {
         query.select(root).orderBy(cb.asc(root.get("startTime"))).where(cb.and(cb.greaterThanOrEqualTo(root.get("startTime"), ZonedDateTime.now()), cb.isTrue(root.get("eventNotification"))));
         Query queryRes = session.createQuery(query);
         return (Event) queryRes.getResultList().get(0);
+    }
+
+    @Transactional
+    public Iterator<Event> findAllContainingDate(ZonedDateTime date) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Event> query = cb.createQuery(Event.class);
+        Root<Event> root = query.from(Event.class);
+        ZonedDateTime start = date;
+        ZonedDateTime end = date.plus(Period.ofDays(1));
+        query.select(root).where(cb.or(cb.greaterThanOrEqualTo(root.get("startTime"), start), cb.lessThanOrEqualTo(root.get("endTime"), end)));
+        Query queryRes = session.createQuery(query);
+        List<Event> results = queryRes.getResultList();
+        session.close();
+        return results.iterator();
     }
 
     @Transactional
