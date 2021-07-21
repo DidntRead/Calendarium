@@ -2,8 +2,10 @@ package calendarium.db;
 
 import calendarium.db.entity.Event;
 import calendarium.db.util.HibernateUtil;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -85,14 +87,12 @@ public class EventRepository {
     @Transactional
     public Iterator<Event> findAllBetweenDate(ZonedDateTime startTime, ZonedDateTime endTime) {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        CriteriaBuilder cb = session.getCriteriaBuilder();
-        CriteriaQuery<Event> query = cb.createQuery(Event.class);
-        Root<Event> root = query.from(Event.class);
-        query.select(root).where(cb.and(cb.ge(root.get("start_time"), Timestamp.valueOf(startTime.toLocalDateTime()).getTime()), cb.le(root.get("end_time"), Timestamp.valueOf(endTime.toLocalDateTime()).getTime())));
-        Query queryRes = session.createQuery(query);
-        List<Event> results = queryRes.getResultList();
+        Criteria cr = session.createCriteria(Event.class);
+        cr.add(Restrictions.ge("startTime", startTime));
+        cr.add(Restrictions.le("endTime", endTime));
+        Iterator<Event> results = cr.list().iterator();
         session.close();
-        return results.iterator();
+        return results;
     }
 
     @Transactional

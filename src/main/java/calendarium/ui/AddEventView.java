@@ -1,5 +1,6 @@
 package calendarium.ui;
 
+import calendarium.bl.DataBaseManager;
 import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.DatePickerSettings;
 
@@ -18,9 +19,10 @@ public class AddEventView extends JFrame{
     public static ZonedDateTime endTime;
 
     private JTextField AddNameHere;
+    private DataBaseManager dataBaseManager;
 
-
-    public AddEventView() {
+    public AddEventView(DataBaseManager dataBaseManager) {
+        this.dataBaseManager=dataBaseManager;
         setBounds(100, 100, 660, 500);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
