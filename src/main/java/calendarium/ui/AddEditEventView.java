@@ -100,7 +100,7 @@ public class AddEditEventView extends JFrame {
         checkNotification.setBounds(456, 241, 123, 18);
         contentPane.add(checkNotification);
 
-        JButton btnCreate = new JButton("Create event");
+        JButton btnCreate = new JButton(updating ? "Update event" : "Create event");
         btnCreate.setBounds(451, 272, 109, 32);
         contentPane.add(btnCreate);
         btnCreate.addActionListener(e -> {
