@@ -1,5 +1,6 @@
 package calendarium.ui;
 
+import calendarium.bl.DataBaseManager;
 import calendarium.db.entity.Event;
 
 import javax.swing.*;
@@ -13,7 +14,7 @@ public class DayView extends JFrame {
     private int width=680;
     private int height=600;
 
-    public DayView(List<Event> events){
+    public DayView(List<Event> events, DataBaseManager manager){
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, width, height);
@@ -37,7 +38,9 @@ public class DayView extends JFrame {
                     DateTimeFormatter.ofPattern("yyyy/MM/dd - hh:mm").format(event.getEndTime()));
             b.setBounds(startX,startY+height*i++,width,height-2 );
             b.addActionListener(l->{
-                //Todo: connect it with delete/edit event view
+                AddEditEventView fr = new AddEditEventView(manager, event);
+                fr.setVisible(true);
+                fr.setResizable(false);
             });
             b.setBackground(new Color(255,100,100));
             contentPane.add(b);

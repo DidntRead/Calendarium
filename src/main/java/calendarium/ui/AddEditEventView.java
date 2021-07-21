@@ -1,23 +1,34 @@
 package calendarium.ui;
 
 import calendarium.bl.DataBaseManager;
+import calendarium.db.entity.Event;
 import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.DatePickerSettings;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import javax.swing.JFrame;
+import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.StyledDocument;
+
 import com.github.lgooddatepicker.components.TimePicker;
 import com.github.lgooddatepicker.components.TimePickerSettings;
 
-public class AddEventView extends JFrame {
+public class AddEditEventView extends JFrame {
     private final JPanel contentPane;
     private final DataBaseManager manager;
 
-    public AddEventView(DataBaseManager manager) {
+    public AddEditEventView(DataBaseManager manager) {
+        this(manager, new Event(), false);
+    }
+
+    public AddEditEventView(DataBaseManager manager, Event event) {
+        this(manager, event, true);
+    }
+
+    private AddEditEventView(DataBaseManager manager, Event event, boolean updating) {
         this.manager = manager;
 
         setTitle("Calendarium - create event");
@@ -32,7 +43,7 @@ public class AddEventView extends JFrame {
         contentPane.add(lblEventName);
 
         Font font1 = new Font("SansSerif", Font.BOLD, 24);
-        JTextField eventName = new JTextField();
+        JTextField eventName = new JTextField(event.getName());
         eventName.setBounds(26, 31, 534, 40);
         contentPane.add(eventName);
         eventName.setFont(font1);
@@ -45,6 +56,7 @@ public class AddEventView extends JFrame {
         DatePickerSettings settings = new DatePickerSettings();
         settings.setAllowEmptyDates(false);
         DatePicker startDatePicker = new DatePicker(settings);
+        startDatePicker.setDate(event.getStartTime().toLocalDate());
         startDatePicker.setBounds(133, 232, 180, 33);
         contentPane.add(startDatePicker);
 
@@ -55,10 +67,12 @@ public class AddEventView extends JFrame {
         DatePickerSettings settings2 = new DatePickerSettings();
         settings2.setAllowEmptyDates(false);
         DatePicker endDatePicker = new DatePicker(settings2);
+        endDatePicker.setDate(event.getEndTime().toLocalDate());
         endDatePicker.setBounds(133, 269, 180, 34);
         contentPane.add(endDatePicker);
 
         JTextPane eventDesc = new JTextPane();
+        eventDesc.setText(event.getDescription());
         JScrollPane scrollPane = new JScrollPane(eventDesc);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setBounds(26, 100, 534, 126);
@@ -71,16 +85,18 @@ public class AddEventView extends JFrame {
         TimePickerSettings timePickerSettings = new TimePickerSettings();
         timePickerSettings.setAllowEmptyTimes(false);
         TimePicker startTimePicker = new TimePicker(timePickerSettings);
+        startTimePicker.setTime(event.getStartTime().toLocalTime());
         startTimePicker.setBounds(324, 234, 105, 31);
         contentPane.add(startTimePicker);
 
         TimePickerSettings timePickerSettings2 = new TimePickerSettings();
         timePickerSettings2.setAllowEmptyTimes(false);
         TimePicker endTimePicker = new TimePicker(timePickerSettings2);
+        endTimePicker.setTime(event.getEndTime().toLocalTime());
         endTimePicker.setBounds(324, 272, 105, 31);
         contentPane.add(endTimePicker);
 
-        JCheckBox checkNotification = new JCheckBox("Notification");
+        JCheckBox checkNotification = new JCheckBox("Notification", event.isEventNotification());
         checkNotification.setBounds(456, 241, 123, 18);
         contentPane.add(checkNotification);
 
@@ -88,9 +104,18 @@ public class AddEventView extends JFrame {
         btnCreate.setBounds(451, 272, 109, 32);
         contentPane.add(btnCreate);
         btnCreate.addActionListener(e -> {
+            event.setName(eventName.getText());
+            event.setDescription(eventDesc.getText());
+            event.setStartTime(startDatePicker.getDate().atTime(startTimePicker.getTime()).atZone(ZoneId.systemDefault()));
+            event.setEndTime(endDatePicker.getDate().atTime(endTimePicker.getTime()).atZone(ZoneId.systemDefault()));
+            event.setEventNotification(checkNotification.isSelected());
+            if(updating) {
+                manager.updateEvent(event);
+            } else {
+                manager.addEvent(event);
+            }
             setVisible(false);
             dispose();
-            manager.addEvent(eventName.getText(), eventDesc.getText(), startDatePicker.getDate().atTime(startTimePicker.getTime()).atZone(ZoneId.systemDefault()), endDatePicker.getDate().atTime(endTimePicker.getTime()).atZone(ZoneId.systemDefault()), checkNotification.isSelected());
         });
     }
 }
