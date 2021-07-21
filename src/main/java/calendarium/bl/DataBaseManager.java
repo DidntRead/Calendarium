@@ -52,6 +52,7 @@ public class DataBaseManager {
             if ((ev = eventRepository.findById(id)) == null) {
                 throw new Exception("Event not found!");
             }
+
             if (startTime.toInstant().compareTo(endTime.toInstant()) > 0)
                 throw new Exception("StartTime is after endTime!");
             ev.setName(name);
@@ -69,6 +70,9 @@ public class DataBaseManager {
 
     public void updateEvent(Event event) throws Exception {
 
+        if(event.getName().isEmpty()){
+            throw new Exception("Every event should have tittle!");
+        }
         if (eventRepository.findById(event.getEventID()) == null) {
             throw new Exception("Event not found!");
         }
