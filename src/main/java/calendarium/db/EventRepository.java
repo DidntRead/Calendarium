@@ -3,6 +3,7 @@ package calendarium.db;
 import calendarium.db.entity.Event;
 import calendarium.db.util.HibernateUtil;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -140,20 +141,28 @@ public class EventRepository {
         return results.iterator();
     }
 
-    @Transactional
+    @Transactional()
     public void update(Event ev) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.update(ev);
-        session.close();
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            Transaction trans = session.beginTransaction();
+            session.update(ev);
+            trans.commit();
+            session.close();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Transactional
     public void updateAll(Iterator<Event> ev) {
         Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction trans = session.beginTransaction();
         while(ev.hasNext()) {
             Event e = ev.next();
             session.update(e);
         }
+        trans.commit();
         session.close();
     }
 }
