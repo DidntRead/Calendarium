@@ -194,9 +194,10 @@ public class Main extends JFrame{
 
         JButton SelectDate = new JButton("Add event");
         SelectDate.addActionListener(e -> {
-            // TODO Auto-generated method stub
-            //Dunno.setVisible(false);
-           // new EventClass().setVisible(true);
+            AddEventUI fr = new AddEventUI();
+            fr.setVisible(true);
+            fr.setResizable(false);
+            fr.setTitle("Create event");
         });
 
         SelectDate.setBounds(500, 475, 100, 45);
@@ -209,8 +210,7 @@ public class Main extends JFrame{
     private int endY=400;
 
     private void arrangeCalendarDays(int dayOfTheWeek,int countOfDays){
-        for (JButton b:
-             calendarDays) {
+        for (JButton b: calendarDays) {
             contantPane.remove(b);
         }
         calendarDays=new ArrayList<>();

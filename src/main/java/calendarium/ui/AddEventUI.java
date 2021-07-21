@@ -6,7 +6,7 @@ import java.awt.*;
 import java.time.ZonedDateTime;
 import javax.swing.JFrame;
 
-public class EventClass extends JFrame{
+public class AddEventUI extends JFrame{
     public static JFrame n;
     private JPanel contentPane;
     public static String name;
@@ -16,21 +16,8 @@ public class EventClass extends JFrame{
 
     private JTextField AddNameHere;
 
-        public static void main(String[] args) {
-            EventQueue.invokeLater(new Runnable() {
-                public void run() {
-                    try {
-                        EventClass fr = new EventClass();
-                        fr.setVisible(true);
-                        fr.setResizable(false);
-                        fr.setTitle("[Create event]");
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-        }
-    public EventClass() {
+
+    public AddEventUI() {
         setBounds(100, 100, 660, 500);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
