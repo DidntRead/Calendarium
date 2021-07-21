@@ -104,7 +104,7 @@ public class CalendarView extends JFrame{
                     List<Event> eventList=new ArrayList<>();
                     Iterator<Event> eventIterator=dataBaseManager.getEventsContainingDate(ZonedDateTime.of(year,month,finalIndex,0,0,0,0,ZonedDateTime.now().getZone()));
                     eventIterator.forEachRemaining(eventList::add);
-                    DayView dayView=new DayView(eventList);
+                    DayView dayView=new DayView(eventList, dataBaseManager);
                     dayView.setTitle(getTitle()+" - "+ finalIndex);
                     dayView.setVisible(true);
                 });
