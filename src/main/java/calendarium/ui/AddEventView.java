@@ -6,7 +6,7 @@ import java.awt.*;
 import java.time.ZonedDateTime;
 import javax.swing.JFrame;
 
-public class AddEventUI extends JFrame{
+public class AddEventView extends JFrame{
     public static JFrame n;
     private JPanel contentPane;
     public static String name;
@@ -17,7 +17,7 @@ public class AddEventUI extends JFrame{
     private JTextField AddNameHere;
 
 
-    public AddEventUI() {
+    public AddEventView() {
         setBounds(100, 100, 660, 500);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
