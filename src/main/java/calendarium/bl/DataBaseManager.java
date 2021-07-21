@@ -14,13 +14,16 @@ public class DataBaseManager {
         eventRepository=new EventRepository();
     }
 
-    public boolean addEvent(String name, String description, ZonedDateTime startTime,ZonedDateTime endTime){
+
+
+    public boolean addEvent(String name, String description, ZonedDateTime startTime, ZonedDateTime endTime, boolean notification){
         try {
             Event event=new Event();
             event.setName(name);
             event.setDescription(description);
             event.setStartTime(startTime);
             event.setEndTime(endTime);
+            event.setEventNotification(notification);
             eventRepository.save(event);
             return true;
         }catch (Exception e){
@@ -29,18 +32,18 @@ public class DataBaseManager {
         }
     }
 
-    public boolean updateEvent(long id,String name, String description, ZonedDateTime startTime,ZonedDateTime endTime){
+    public boolean updateEvent(long id, String name, String description, ZonedDateTime startTime, ZonedDateTime endTime, boolean notification){
+        Event ev;
         try {
-            if(eventRepository.findById(id)==null){
+            if((ev = eventRepository.findById(id))==null){
                 throw new Exception("Event not found!");
             }
-            Event event=new Event();
-            event.setEventID(id);
-            event.setName(name);
-            event.setDescription(description);
-            event.setStartTime(startTime);
-            event.setEndTime(endTime);
-            eventRepository.update(event);
+            ev.setName(name);
+            ev.setDescription(description);
+            ev.setStartTime(startTime);
+            ev.setEndTime(endTime);
+            ev.setEventNotification(notification);
+            eventRepository.update(ev);
             return true;
         }catch (Exception e){
             e.printStackTrace();
@@ -67,4 +70,11 @@ public class DataBaseManager {
         return iterator;
     }
 
+    public Iterator<Event> getEventsWithNotifications(boolean notificationsEnabled) {
+        return eventRepository.findAllWithNotifications(notificationsEnabled);
+    }
+
+    public Event getNextEventWithNotification() {
+        return eventRepository.findNextEventWithNotification();
+    }
 }
