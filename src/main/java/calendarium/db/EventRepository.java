@@ -111,6 +111,14 @@ public class EventRepository {
     }
 
     @Transactional
+    public Iterator<Event> findAllContainingDate(ZonedDateTime date) {
+
+        ZonedDateTime start = date;
+        ZonedDateTime end = date.plus(Period.ofDays(1));
+        return this.findAllBetweenDate(start,end);
+    }
+
+    @Transactional
     public Iterator<Event> findAllWithNotifications(boolean notificationsEnabled) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         CriteriaBuilder cb = session.getCriteriaBuilder();
@@ -133,21 +141,6 @@ public class EventRepository {
         Query queryRes = session.createQuery(query);
         List<Event> results = queryRes.getResultList();
         return results.size() == 0 ? null : results.get(0);
-    }
-
-    @Transactional
-    public Iterator<Event> findAllContainingDate(ZonedDateTime date) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        CriteriaBuilder cb = session.getCriteriaBuilder();
-        CriteriaQuery<Event> query = cb.createQuery(Event.class);
-        Root<Event> root = query.from(Event.class);
-        ZonedDateTime start = date;
-        ZonedDateTime end = date.plus(Period.ofDays(1));
-        query.select(root).where(cb.and(cb.greaterThanOrEqualTo(root.get("endTime"), start), cb.lessThanOrEqualTo(root.get("startTime"), end)));
-        Query queryRes = session.createQuery(query);
-        List<Event> results = queryRes.getResultList();
-        session.close();
-        return results.iterator();
     }
 
     @Transactional()

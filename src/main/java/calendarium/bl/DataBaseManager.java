@@ -14,24 +14,6 @@ public class DataBaseManager {
         eventRepository = new EventRepository();
     }
 
-    public boolean addEvent(String name, String description, ZonedDateTime startTime, ZonedDateTime endTime, boolean notification) {
-        try {
-            Event event = new Event();
-            event.setName(name);
-            event.setDescription(description);
-            if (startTime.toInstant().compareTo(endTime.toInstant()) > 0)
-                throw new Exception("StartTime is after endTime!");
-            event.setStartTime(startTime);
-            event.setEndTime(endTime);
-            event.setEventNotification(notification);
-            eventRepository.save(event);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
     public void addEvent(Event event) throws Exception {
 
         if(event.getName().isEmpty()){
@@ -44,28 +26,6 @@ public class DataBaseManager {
 
         eventRepository.save(event);
 
-    }
-
-    public boolean updateEvent(long id, String name, String description, ZonedDateTime startTime, ZonedDateTime endTime, boolean notification) {
-        Event ev;
-        try {
-            if ((ev = eventRepository.findById(id)) == null) {
-                throw new Exception("Event not found!");
-            }
-
-            if (startTime.toInstant().compareTo(endTime.toInstant()) > 0)
-                throw new Exception("StartTime is after endTime!");
-            ev.setName(name);
-            ev.setDescription(description);
-            ev.setStartTime(startTime);
-            ev.setEndTime(endTime);
-            ev.setEventNotification(notification);
-            eventRepository.update(ev);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
     }
 
     public void updateEvent(Event event) throws Exception {
