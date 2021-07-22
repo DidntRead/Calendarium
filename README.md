@@ -16,22 +16,28 @@ A calendar app with support for planning your schedule. It supports adding new e
 
 ### Building
 
-* Build is done using maven
 ```
 mvn package
 ```
 
+### Setting up the database
+
+```
+cd db
+docker-compose up
+```
+
 ### Executing program
 
-* Run command below
 ```
 java -jar target/Calendarium-1.0.jar
 ```
+
 ## Authors
 
-* [Kaloyan Petkov](github.com/DidntRead)
-* [Milen Valev](github.com/ldak)
-* [Martin Minev](github.com/MartinIsHandsome)
+* [Kaloyan Petkov](https://github.com/DidntRead)
+* [Milen Valev](https://github.com/ldak)
+* [Martin Minev](https://github.com/MartinIsHandsome)
 
 ## Version History
 
