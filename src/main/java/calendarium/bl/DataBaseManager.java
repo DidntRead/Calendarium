@@ -82,18 +82,8 @@ public class DataBaseManager {
 
     }
 
-    public boolean delete(long id) {
-        try {
-            Event event;
-            if ((event = eventRepository.findById(id)) == null) {
-                throw new Exception("Event not found!");
-            }
+    public void delete(Event event) {
             eventRepository.delete(event);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
     }
 
     public Iterator<Event> getEventsBetween(ZonedDateTime startTime, ZonedDateTime endTime) {

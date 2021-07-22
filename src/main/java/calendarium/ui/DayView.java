@@ -67,7 +67,8 @@ public class DayView extends JFrame {
         //List<JButton> eventButtons=new ArrayList<>();
         int startX=30;
         int startY=30;
-        int width=this.width-(startX*2);
+        int deleteWidth=50;
+        int width=this.width-(startX*2)-deleteWidth;
         int height=events.size()*30<this.height-(startY*2)?30:this.height-(startY*2)/events.size();
 
         int i=0;
@@ -76,7 +77,7 @@ public class DayView extends JFrame {
                     DateTimeFormatter.ofPattern("yyyy/MM/dd - hh:mm").format(event.getStartTime()) +
                     (event.getStartTime().equals(event.getEndTime()) ? "" : " - " +
                     DateTimeFormatter.ofPattern("yyyy/MM/dd - hh:mm").format(event.getEndTime())));
-            b.setBounds(startX,startY+height*i++,width,height-2 );
+            b.setBounds(startX,startY+height*i,width-2,height-2 );
             b.addActionListener(l->{
                 AddEditEventView fr = new AddEditEventView(manager, event);
                 fr.setVisible(true);
@@ -84,6 +85,23 @@ public class DayView extends JFrame {
             });
             b.setBackground(new Color(255,100,100));
             contentPane.add(b);
+            JButton delete =new JButton("X");
+            delete.setFont(new Font(Font.SERIF,Font.BOLD,12));
+            delete.setBounds(startX+width,startY+height*i,deleteWidth,height);
+            delete.addActionListener(l->{
+                try {
+                    manager.delete(event);
+                    JOptionPane.showMessageDialog(null,"Successfully deleted.");
+                    this.setVisible(false);
+                    this.dispose();
+                }catch (Exception e){
+                    JOptionPane.showMessageDialog(null,e.getMessage());
+                }
+
+            });
+            delete.setBackground(Color.RED);
+            contentPane.add(delete);
+            i++;
         }
 
 
