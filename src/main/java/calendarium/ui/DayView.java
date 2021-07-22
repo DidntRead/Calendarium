@@ -63,15 +63,22 @@ public class DayView extends JFrame {
             }
         });
 
-        if(events==null)return;
-        //List<JButton> eventButtons=new ArrayList<>();
         int startX=30;
         int startY=30;
+
+        if(events==null||events.size()==0){
+            JLabel label=new JLabel("There is no events this day.",SwingConstants.CENTER);
+            label.setBounds(startX,startY,width-(startX*2),height-(startY*8));
+            label.setFont(new Font(Font.SERIF,Font.PLAIN,20));
+            contentPane.add(label);
+        }
+
         int deleteWidth=50;
         int width=this.width-(startX*2)-deleteWidth;
         int height=events.size()*30<this.height-(startY*2)?30:this.height-(startY*2)/events.size();
 
         int i=0;
+
         for (Event event:events) {
             JButton b=new JButton(event.getName()+": "+
                     DateTimeFormatter.ofPattern("yyyy/MM/dd - hh:mm").format(event.getStartTime()) +
