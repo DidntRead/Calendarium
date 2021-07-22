@@ -160,7 +160,7 @@ public class CalendarView extends JFrame{
         );
         for (Iterator<Event> it = events; it.hasNext(); ) {
             Event event = it.next();
-            int i =event.getStartTime().getMonth().getValue()==month?event.getStartTime().getDayOfMonth():0;
+            int i =event.getStartTime().getMonth().getValue()==month?event.getStartTime().getDayOfMonth():1;
             int n=event.getEndTime().getMonth().getValue()==month?event.getEndTime().getDayOfMonth(): YearMonth.of(LocalDateTime.now().getYear(), month).lengthOfMonth();
             for (;i<=n;i++){
                 calendarDays.get(i-1).setBackground(Color.RED);
