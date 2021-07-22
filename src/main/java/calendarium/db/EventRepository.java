@@ -103,7 +103,7 @@ public class EventRepository {
         CriteriaBuilder cb = session.getCriteriaBuilder();
         CriteriaQuery<Event> query = cb.createQuery(Event.class);
         Root<Event> root = query.from(Event.class);
-        query.select(root).where(cb.greaterThanOrEqualTo(root.get("startTime"), startTime), cb.lessThanOrEqualTo(root.get("endTime"), endTime));
+        query.select(root).where(cb.and(cb.greaterThanOrEqualTo(root.get("endTime"), startTime), cb.lessThanOrEqualTo(root.get("startTime"), endTime)));
         Query queryRes = session.createQuery(query);
         List<Event> results = queryRes.getResultList();
         session.close();
