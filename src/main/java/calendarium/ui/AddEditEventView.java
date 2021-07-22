@@ -8,6 +8,8 @@ import com.github.lgooddatepicker.components.DatePickerSettings;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -33,12 +35,52 @@ public class AddEditEventView extends JFrame {
     private AddEditEventView(DataBaseManager manager, Event event, boolean updating) {
         this.manager = manager;
 
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle("Calendarium - create event");
         setBounds(100, 100, 601, 352);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         contentPane.setLayout(null);
+
+        if(!updating){
+            this.addWindowListener(new WindowListener() {
+                @Override
+                public void windowOpened(WindowEvent e) {
+
+                }
+
+                @Override
+                public void windowClosing(WindowEvent e) {
+
+                }
+
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    Main.trayListener.open();
+                }
+
+                @Override
+                public void windowIconified(WindowEvent e) {
+
+                }
+
+                @Override
+                public void windowDeiconified(WindowEvent e) {
+
+                }
+
+                @Override
+                public void windowActivated(WindowEvent e) {
+
+                }
+
+                @Override
+                public void windowDeactivated(WindowEvent e) {
+
+                }
+            });
+        }
 
         JLabel lblEventName = new JLabel("Event name");
         lblEventName.setBounds(26, 6, 109, 26);

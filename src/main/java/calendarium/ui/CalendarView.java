@@ -68,6 +68,8 @@ public class CalendarView extends JFrame{
             AddEditEventView fr = new AddEditEventView(dataBaseManager);
             fr.setVisible(true);
             fr.setResizable(false);
+            this.setVisible(false);
+            this.dispose();
         });
 
         addEvent.setBounds(500, 475, 100, 40);
@@ -107,6 +109,8 @@ public class CalendarView extends JFrame{
                     DayView dayView=new DayView(eventList, dataBaseManager);
                     dayView.setTitle(getTitle()+" - "+ finalIndex);
                     dayView.setVisible(true);
+                    this.setVisible(false);
+                    this.dispose();
                 });
                 contentPane.add(b);
                 calendarDays.add(b);
