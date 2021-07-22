@@ -123,7 +123,8 @@ public class EventRepository {
         Root<Event> root = query.from(Event.class);
         query.select(root).orderBy(cb.asc(root.get("startTime"))).where(cb.and(cb.greaterThanOrEqualTo(root.get("startTime"), ZonedDateTime.now()), cb.isTrue(root.get("eventNotification"))));
         Query queryRes = session.createQuery(query);
-        return (Event) queryRes.getResultList().get(0);
+        List<Event> results = queryRes.getResultList();
+        return results.size() == 0 ? null : results.get(0);
     }
 
     @Transactional
