@@ -19,34 +19,42 @@ public class EventRepository {
     @Transactional
     public void delete(Event ev) {
         Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction trans = session.beginTransaction();
         session.delete(ev);
+        trans.commit();
         session.close();
     }
 
     @Transactional
     public void deleteAll(Iterator<Event> ev) {
         Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction trans = session.beginTransaction();
         while(ev.hasNext()) {
             Event e = ev.next();
             session.delete(e);
         }
+        trans.commit();
         session.close();
     }
 
     @Transactional
     public void save(Event ev) {
         Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction trans = session.beginTransaction();
         session.save(ev);
+        trans.commit();
         session.close();
     }
 
     @Transactional
     public void saveAll(Iterator<Event> ev) {
         Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction trans = session.beginTransaction();
         while(ev.hasNext()) {
             Event e = ev.next();
             session.save(e);
         }
+        trans.commit();
         session.close();
     }
 
