@@ -11,9 +11,7 @@ import javax.swing.border.EmptyBorder;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
+import java.util.*;
 import java.util.List;
 
 public class CalendarView extends JFrame{
@@ -26,9 +24,8 @@ public class CalendarView extends JFrame{
 
     private int year;
 
-    public CalendarView() {
-        dataBaseManager=new DataBaseManager();
-
+    public CalendarView(DataBaseManager dataBaseManager) {
+        this.dataBaseManager = dataBaseManager;
         calendarDays=new ArrayList<>();
 
         setBounds(100, 100, 680, 600);
