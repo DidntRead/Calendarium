@@ -9,31 +9,36 @@ import java.awt.*;
 import javax.swing.border.EmptyBorder;
 
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.time.YearMonth;
 import java.time.ZonedDateTime;
+import java.time.format.TextStyle;
 import java.util.*;
 import java.util.List;
 
 public class CalendarView extends JFrame{
-    public static JFrame n;
     private JPanel contentPane;
-
     private ArrayList<JButton> calendarDays;
-
+    private JPanel daysPanel;
     private DataBaseManager dataBaseManager;
-
     private int year;
 
     public CalendarView(DataBaseManager dataBaseManager) {
         this.dataBaseManager = dataBaseManager;
         calendarDays=new ArrayList<>();
 
-        setBounds(100, 100, 680, 600);
+        setBounds(100, 100, 685, 598);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         contentPane.setLayout(null);
+
+        daysPanel = new JPanel();
+        daysPanel.setBorder(BorderFactory.createLoweredBevelBorder());
+        daysPanel.setBounds(10, 150, 650, 358);
+        daysPanel.setLayout(null);
+        contentPane.add(daysPanel);
         addLabelsToDaysOfTheMonth();
 
         LocalDateTime date=LocalDateTime.now();
@@ -41,17 +46,16 @@ public class CalendarView extends JFrame{
         arrangeViewToMonth(date.getMonth().getValue());
 
         JLabel lblYear=new JLabel("Year: ",SwingConstants.CENTER);
-        lblYear.setBounds(10,20,100,20);
+        lblYear.setBounds(10,18,100,20);
         contentPane.add(lblYear);
 
         JTextField txtYear=new JTextField(year+"");
-        txtYear.setBounds(100,20,100,30);
+        txtYear.setBounds(116, 13, 100, 30);
         txtYear.addActionListener(a->{
              try {
                 year = Integer.parseInt(txtYear.getText());
-                LocalDateTime.of(year, 1, 1, 12, 0);
                 arrangeViewToMonth(1);
-            }catch (Exception e){
+            } catch (Exception e){
                 JOptionPane.showMessageDialog(null,"Invalid year!");
                 txtYear.setText(year+"");
             }
@@ -70,18 +74,36 @@ public class CalendarView extends JFrame{
             this.dispose();
         });
 
-        addEvent.setBounds(500, 475, 100, 40);
+        addEvent.setBounds(560, 513, 100, 40);
         contentPane.add(addEvent);
+
+        JButton btnYearMinus = new JButton("<");
+        btnYearMinus.setBounds(82, 14, 35, 28);
+        btnYearMinus.addActionListener(e -> {
+            year--;
+            arrangeViewToMonth(1);
+            txtYear.setText(String.valueOf(year));
+        });
+        contentPane.add(btnYearMinus);
+
+        JButton btnYearPlus = new JButton(">");
+        btnYearPlus.setBounds(217, 14, 35, 28);
+        btnYearPlus.addActionListener(e -> {
+            year++;
+            arrangeViewToMonth(1);
+            txtYear.setText(String.valueOf(year));
+        });
+        contentPane.add(btnYearPlus);
     }
 
-    private int startX=130;
-    private int startY=200;
-    private int endX=500;
-    private int endY=400;
+    private int startX=10;
+    private int startY=0;
+    private int endX=600;
+    private int endY=300;
 
     private void clearButtons(){
         for (JButton b: calendarDays) {
-            contentPane.remove(b);
+            daysPanel.remove(b);
         }
         calendarDays=new ArrayList<>();
         repaint();
@@ -111,7 +133,7 @@ public class CalendarView extends JFrame{
                     this.setVisible(false);
                     this.dispose();
                 });
-                contentPane.add(b);
+                daysPanel.add(b);
                 calendarDays.add(b);
                 if (index==countOfDays){
                     repaint();
@@ -130,7 +152,7 @@ public class CalendarView extends JFrame{
         for (int j=0;j<7;j++){
             JLabel l=new JLabel("",SwingConstants.CENTER);
             l.setBounds(startX+j*plusX,startY,width,height);
-            contentPane.add(l);
+            daysPanel.add(l);
             labels[j]=l;
         }
         labels[0].setText("M");
@@ -169,90 +191,12 @@ public class CalendarView extends JFrame{
     }
 
     private void initializeMonthButtons(){
-        JButton JanButton = new JButton("January");
-        JanButton.setBounds(10, 50, 100, 40);
-        JanButton.addActionListener(e -> {
-            arrangeViewToMonth(1);
-        });
-
-        contentPane.add(JanButton);
-
-        JButton FebButton = new JButton("February");
-        FebButton.setBounds(120, 50, 100, 40);
-        FebButton.addActionListener(e -> {
-            arrangeViewToMonth(2);
-        });
-        contentPane.add(FebButton);
-
-        JButton MarchButton = new JButton("March");
-        MarchButton.setBounds(230, 50, 100, 40);
-        MarchButton.addActionListener(e -> {
-            arrangeViewToMonth(3);
-        });
-        contentPane.add(MarchButton);
-
-        JButton AprilButton = new JButton("April");
-        AprilButton.setBounds(340, 50, 100, 40);
-        AprilButton.addActionListener(e -> {
-            arrangeViewToMonth(4);
-        });
-        contentPane.add(AprilButton);
-
-        JButton MayButton = new JButton("May");
-        MayButton.setBounds(450, 50, 100, 40);
-        MayButton.addActionListener(e -> {
-            arrangeViewToMonth(5);
-        });
-        contentPane.add(MayButton);
-
-        JButton JuneButton = new JButton("June");
-        JuneButton.setBounds(560, 50, 100, 40);
-        JuneButton.addActionListener(e -> {
-            arrangeViewToMonth(6);
-        });
-        contentPane.add(JuneButton);
-
-        JButton JulyButton = new JButton("July");
-        JulyButton.setBounds(10, 100, 100, 40);
-        JulyButton.addActionListener(e -> {
-            arrangeViewToMonth(7);
-        });
-        contentPane.add(JulyButton);
-
-        JButton AugustButton = new JButton("August");
-        AugustButton.setBounds(120, 100, 100, 40);
-        AugustButton.addActionListener(e -> {
-            arrangeViewToMonth(8);
-        });
-        contentPane.add(AugustButton);
-
-        JButton SeptemberButton = new JButton("September");
-        SeptemberButton.setBounds(230, 100, 100, 40);
-        SeptemberButton.addActionListener(e -> {
-            arrangeViewToMonth(9);
-        });
-        contentPane.add(SeptemberButton);
-
-        JButton OctoberButton = new JButton("October");
-        OctoberButton.setBounds(340, 100, 100, 40);
-        OctoberButton.addActionListener(e -> {
-            arrangeViewToMonth(10);
-        });
-        contentPane.add(OctoberButton);
-
-        JButton NovemberButton = new JButton("November");
-        NovemberButton.setBounds(450, 100, 100, 40);
-        NovemberButton.addActionListener(e -> {
-            arrangeViewToMonth(11);
-        });
-        contentPane.add(NovemberButton);
-
-        JButton DecemberButton = new JButton("December");
-        DecemberButton.setBounds(560, 100, 100, 40);
-        DecemberButton.addActionListener(e -> arrangeViewToMonth(12));
-        contentPane.add(DecemberButton);
+        for(int i = 1; i <= 12; i++) {
+            int temp = i;
+            JButton button = new JButton(Month.of(i).getDisplayName(TextStyle.FULL, Locale.getDefault()));
+            button.setBounds(10 + ((i > 6 ? (i - 7) : (i - 1)) * 110), i > 6 ? 100 : 50, 100, 40);
+            button.addActionListener(e -> arrangeViewToMonth(temp));
+            contentPane.add(button);
+        }
     }
-
-
-
 }
