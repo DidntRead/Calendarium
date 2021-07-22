@@ -36,7 +36,7 @@ public class AddEditEventView extends JFrame {
         this.manager = manager;
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setTitle("Calendarium - create event");
+        setTitle("Calendarium - "+(updating?"edit event":"create event"));
         setBounds(100, 100, 601, 352);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
