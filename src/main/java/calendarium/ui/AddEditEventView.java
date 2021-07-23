@@ -8,8 +8,12 @@ import com.github.lgooddatepicker.components.DatePickerSettings;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -23,6 +27,7 @@ import com.github.lgooddatepicker.components.TimePickerSettings;
 public class AddEditEventView extends JFrame {
     private final JPanel contentPane;
     private final DataBaseManager manager;
+    private int nameLimit = 0, descLimit = 0;
 
     public AddEditEventView(DataBaseManager manager) {
         this(manager, new Event(), false);
@@ -86,8 +91,29 @@ public class AddEditEventView extends JFrame {
         lblEventName.setBounds(26, 6, 109, 26);
         contentPane.add(lblEventName);
 
+        JLabel lblNameLimit = new JLabel(nameLimit + "/250");
+        lblNameLimit.setBounds(524, 6, 109, 26);
+        contentPane.add(lblNameLimit);
+
         Font font1 = new Font("SansSerif", Font.BOLD, 24);
         JTextField eventName = new JTextField(event.getName());
+        eventName.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if(e.getKeyChar() == '\b') {
+                    nameLimit--;
+                    if(nameLimit < 0)
+                        nameLimit = 0;
+                } else {
+                    nameLimit = eventName.getText().length();
+                    if(nameLimit > 250) {
+                        nameLimit = 250;
+                        eventName.setText(eventName.getText().substring(0, 251));
+                    }
+                }
+                lblNameLimit.setText(nameLimit + "/250");
+            }
+        });
         eventName.setBounds(26, 31, 534, 40);
         contentPane.add(eventName);
         eventName.setFont(font1);
@@ -121,11 +147,33 @@ public class AddEditEventView extends JFrame {
         endDatePicker.setBounds(133, 269, 180, 34);
         contentPane.add(endDatePicker);
 
+        JLabel lblDescLimit = new JLabel(descLimit + "/250");
+        lblDescLimit.setBounds(524, 82, 126, 14);
+        contentPane.add(lblDescLimit);
+
         JTextPane eventDesc = new JTextPane();
         eventDesc.setText(event.getDescription());
+        eventDesc.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                System.out.println(e.getKeyCode());
+                if(e.getKeyChar() == '\b') {
+                    descLimit--;
+                    if(descLimit < 0)
+                        descLimit = 0;
+                } else {
+                    descLimit = eventDesc.getText().length();
+                    if(descLimit > 250) {
+                        descLimit = 250;
+                        eventDesc.setText(eventDesc.getText().substring(0, 251));
+                    }
+                }
+                lblDescLimit.setText(descLimit + "/250");
+            }
+        });
         JScrollPane scrollPane = new JScrollPane(eventDesc);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-        scrollPane.setBounds(26, 100, 534, 126);
+        scrollPane.setBounds(26, 100, 534,126 );
         contentPane.add(scrollPane);
 
         JLabel lblEventDesc = new JLabel("Event description");
