@@ -5,9 +5,9 @@
     <session-factory>
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL10Dialect</property>
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-        <property name="hibernate.connection.username">postgres</property>
-        <property name="hibernate.connection.password">password</property>
-        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/calendarium</property>
+        <property name="hibernate.connection.username">pguser</property>
+        <property name="hibernate.connection.password">nylsk9jhfezu3rp3</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://db-postgresql-fra1-24106-do-user-1553375-0.b.db.ondigitalocean.com:25060/calendarium</property>
         <property name="connection_pool_size">1</property>
         <property name="hbm2ddl.auto">update</property>
         <property name="show_sql">true</property>
