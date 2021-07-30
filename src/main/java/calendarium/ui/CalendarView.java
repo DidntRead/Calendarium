@@ -177,8 +177,8 @@ public class CalendarView extends JFrame{
 
     private void fillDaysWithEvents(int month){
         Iterator<Event> events=dataBaseManager.getEventsBetween(
-                ZonedDateTime.of(year,month,1,12,0,0,0,ZonedDateTime.now().getZone()),
-                ZonedDateTime.of(year,month,YearMonth.of(LocalDateTime.now().getYear(), month).lengthOfMonth(),12,0,0,0,ZonedDateTime.now().getZone())
+                ZonedDateTime.of(year,month,1,0,0,0,0,ZonedDateTime.now().getZone()),
+                ZonedDateTime.of(year,month,YearMonth.of(LocalDateTime.now().getYear(), month).lengthOfMonth(),23,59,59,59, ZonedDateTime.now().getZone())
         );
         for (Iterator<Event> it = events; it.hasNext(); ) {
             Event event = it.next();
